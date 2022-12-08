@@ -1,0 +1,144 @@
+class TabelaDeEstados:
+  def __init__(self):
+
+    self.letras = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+
+    self.digitos = ['0','1','2','3','4','5','6','7','8','9']
+
+    self.simbolos = ['"', '.', '_', '{', '}', '<', '>', '=', '-', '+', '*', '/', '(', ')', ';', ',']
+
+    self.outros = ['[', ']', '?', '!', '\\', '/', '&', '@', '|', ':']       #Esse aqui vai ser usado somente no estado de comentário e literal
+
+    self.alfabeto = self.letras + self.digitos + self.simbolos
+
+    self.tabela_de_estados = {
+
+          0: {'D':1, '"':7, 'L':10, '{':12, 'EOF':15, '<':16, '>':26, '=':28, '+':18, '-':18, '*':18, '/':18, '(':19, ')':20, ';':21, ',':22, ' ':0},       
+
+          1: {'D':1, '.':2, 'E':4, 'e':4},
+
+          2: {'D':3},      
+
+          3: {'D':3, 'E':4, 'e':4},     
+
+          4: {'D':6, '+':5, '-':5},
+
+          5: {'D':6},
+
+          6: {'D':6},
+
+          7: {'[': 8, ']': 8, '?': 8, '!': 8, '\\': 8, '/': 8, '&': 8, '@': 8, '|': 8, '.': 8, '_': 8, '<': 8, '>': 8, '=': 8, '-': 8, '+': 8, '*': 8, '/': 8, '(': 8, ')': 8, ';': 8, ',': 8, '.':8, 'D':8, 'L':8, '{':8, '}':8, ':': 8, '"': 9 },
+
+          8: {'[': 8, ']': 8, '?': 8, '!': 8, '\\': 8, '/': 8, '&': 8, '@': 8, '|': 8, '.': 8, '_': 8, '<': 8, '>': 8, '=': 8, '-': 8, '+': 8, '*': 8, '/': 8, '(': 8, ')': 8, ';': 8, ',': 8, '.':8, 'D':8, 'L':8, '{':8, '}':8, ':': 8, '"': 9 },    
+
+          9: {},
+
+          10: {'D':11, 'L':11, '_':11},
+
+          11: {'D':11, 'L':11, '_':11},
+
+          12: {'[': 13, ']': 13, '?': 13, '!': 13, '\\': 13, '/': 13, '&': 13, '@': 13, '|': 13, '"': 13, '.': 13, '_': 13, '<': 13, '>': 13, '=': 13, '-': 13, '+': 13, '*': 13, '/': 13, '(': 13, ')': 13, ';': 13, ',': 13, '.':13, 'D':13, 'L':13, ':': 13, '}': 14},
+
+          13: {'[': 13, ']': 13, '?': 13, '!': 13, '\\': 13, '/': 13, '&': 13, '@': 13, '|': 13, '"': 13, '.': 13, '_': 13, '<': 13, '>': 13, '=': 13, '-': 13, '+': 13, '*': 13, '/': 13, '(': 13, ')': 13, ';': 13, ',': 13, '.':13, 'D':13, 'L':13, ':': 13, '}': 14},
+
+          14: {},
+
+          15: {},
+
+          16: {'-': 17, '>': 25, '=': 24},
+
+          17: {},
+
+          18: {},
+
+          19: {},
+
+          20: {},
+
+          21: {},
+
+          22: {},
+
+          23: {},
+
+          24: {},
+
+          25: {},
+
+          26: {'=': 27},
+
+          27: {},
+
+          28: {},
+
+        }
+
+
+    self.estados_de_reducao = {
+      1:"Num",
+      3:"Num",
+      6:"Num",
+      9:"Lit",
+      10:"id",
+      11:"id",
+      14:"Comentário",
+      15:"EOF",
+      16:"OPR",
+      17:"ATR",
+      18:"OPA",
+      19:"AB_P",
+      20:"FC_P",
+      21:"PT_V",
+      22:"VIR",
+      23:"ERRO",
+      24:"OPR",
+      25:"OPR",
+      26:"OPR",
+      27:"OPR",
+      28:"OPR",
+    }
+
+    self.estados_incompletos = {
+      0:"Caracter inválido",
+      2:"Num incompleto",
+      4:"Num incompleto",
+      5:"Num incompleto",
+      7:"Literal incompleto",
+      8:"Literal incompleto",
+      12:"Comentário incompleto",
+      13:"Comentário incompleto",
+    }
+
+    self.estado_atual = 0
+
+
+  def verificarSeProximoEstadoEValido(self, proximoEstado):
+    try:
+      self.estado_atual = self.tabela_de_estados[self.estado_atual][proximoEstado]
+      return True
+
+    except KeyError:
+      return False
+
+  def verificarSeEstadoAtualEValido(self):
+    try:
+      self.estados_de_reducao[self.estado_atual]
+      return True
+
+    except KeyError:
+      return False
+
+  def obterClasseDoEstadoFinal(self):
+    return self.estados_de_reducao[self.estado_atual]
+
+
+  def lancarErro(self, linha):
+    print('ERRO LÉXICO –', self.estados_incompletos[self.estado_atual], 'linha', linha)
+    self.estado_atual = 0
+
+  def verificaTipoCaractere(self, char):
+    if (char in self.letras):
+          return 'L'
+
+    elif (char in self.digitos):
+          return 'D'

@@ -112,9 +112,10 @@ class TabelaDeEstados:
     self.estado_atual = 0
 
 
-  def verificarSeProximoEstadoEValido(self, proximoEstado):
+  def verificarSeProximoEstadoEValido(self, char):
     try:
-      self.estado_atual = self.tabela_de_estados[self.estado_atual][proximoEstado]
+      charFormatado = self.verificaTipoCaractere(char)
+      self.estado_atual = self.tabela_de_estados[self.estado_atual][charFormatado]
       return True
 
     except KeyError:
@@ -139,6 +140,6 @@ class TabelaDeEstados:
   def verificaTipoCaractere(self, char):
     if (char in self.letras):
           return 'L'
-
     elif (char in self.digitos):
           return 'D'
+    return char

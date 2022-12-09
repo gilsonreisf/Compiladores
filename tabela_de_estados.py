@@ -74,7 +74,7 @@ class TabelaDeEstados:
         }
 
 
-    self.estados_de_reducao = {
+    self.estados_finais = {
       1:"Num",
       3:"Num",
       6:"Num",
@@ -98,7 +98,7 @@ class TabelaDeEstados:
       28:"OPR",
     }
 
-    self.estados_incompletos = {
+    self.estados_não_finais = {
       0:"Caracter inválido",
       2:"Num incompleto",
       4:"Num incompleto",
@@ -123,18 +123,18 @@ class TabelaDeEstados:
 
   def verificarSeEstadoAtualEValido(self):
     try:
-      self.estados_de_reducao[self.estado_atual]
+      self.estados_finais[self.estado_atual]
       return True
 
     except KeyError:
       return False
 
   def obterClasseDoEstadoFinal(self):
-    return self.estados_de_reducao[self.estado_atual]
+    return self.estados_finais[self.estado_atual]
 
 
   def lancarErro(self, linha):
-    print('ERRO LÉXICO –', self.estados_incompletos[self.estado_atual], 'linha', linha)
+    print('ERRO LÉXICO –', self.estados_não_finais[self.estado_atual], 'linha', linha)
     self.estado_atual = 0
 
   def verificaTipoCaractere(self, char):
@@ -143,3 +143,18 @@ class TabelaDeEstados:
     elif (char in self.digitos):
           return 'D'
     return char
+    
+
+
+  # def preencheToken(self, tabelaDeEstados, importToken, lexema):
+  #   classe = tabelaDeEstados.obterClasseDoEstadoFinal()
+  #   tipo = "NULL"
+  #   lexema = lexema.strip()
+  #   if(classe == 'Num'):
+  #     if tabela.estadoAtual == 3 or tabela.estadoAtual == 11 : tipo = 'Real'
+  #     else: tipo = 'Inteiro'
+  #   elif(classe == 'Lit'): tipo = 'Literal'
+  #   token = importToken.Token(classe,lexema,tipo)  
+  #   if classe == 'id':
+  #     token = self.tabelaDeSimbolos.busca(token)
+  #   return token    

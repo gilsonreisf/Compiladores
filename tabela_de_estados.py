@@ -121,7 +121,7 @@ class TabelaDeEstados:
     except KeyError:
       return False
 
-  def verificarSeEstadoAtualEValido(self):
+  def verificarSeEstaEmEstadoFinal(self):
     try:
       self.estados_finais[self.estado_atual]
       return True
@@ -143,6 +143,12 @@ class TabelaDeEstados:
     elif (char in self.digitos):
           return 'D'
     return char
+
+  def verificarSeEntradaPertenceAoAlfabeto(self, char):
+    if (char in self.alfabeto):
+      return True
+    else: 
+      return False
     
 
 

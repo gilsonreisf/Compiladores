@@ -114,8 +114,7 @@ class TabelaDeEstados:
 
   def verificarSeProximoEstadoEValido(self, char):
     try:
-      charFormatado = self.verificaTipoCaractere(char)
-      self.estado_atual = self.tabela_de_estados[self.estado_atual][charFormatado]
+      self.estado_atual = self.tabela_de_estados[self.estado_atual][char]
       return True
 
     except KeyError:
@@ -149,7 +148,6 @@ class TabelaDeEstados:
       return True
     else: 
       return False
-    
 
 
   # def preencheToken(self, tabelaDeEstados, importToken, lexema):
@@ -164,3 +162,44 @@ class TabelaDeEstados:
   #   if classe == 'id':
   #     token = self.tabelaDeSimbolos.busca(token)
   #   return token    
+
+
+  # def defineClasseTipo(state):
+  #   classe = None
+  #   tipo = None
+  #   isFinal = True
+  #   if state == "q1" or state == "q1_5":
+  #       classe = "NUM"
+  #       tipo = "inteiro"
+  #   elif state == "q1_2" or state == "q1_8":
+  #       classe = "NUM"
+  #       tipo = "real"
+  #   elif state == "q2_1":
+  #       classe = "LIT"
+  #       tipo = "literal"
+  #   elif state == "q3":
+  #       classe = "ID"
+  #   elif state == "q4_1":
+  #       classe = "COMENTARIO"
+  #   elif state == "q5":
+  #       classe = "EOF"
+  #   elif state == "q6" or state == "q7" or state == "q8":
+  #       classe = "OPR"
+  #   elif state == "q8_1":
+  #       classe = "RCB"
+  #   elif state == "q9":
+  #       classe = "OPM"
+  #   elif state == "q10":
+  #       classe = "AB_P"
+  #   elif state == "q11":
+  #       classe = "FC_P"
+  #   elif state == "q12":
+  #       classe = "PT_V"
+  #   elif state == "q13":
+  #       classe = "VIR"
+  #   elif state == "q14":
+  #       classe = "ERRO"
+  #   else:
+  #       isFinal = False
+
+  #   return classe, tipo, isFinal

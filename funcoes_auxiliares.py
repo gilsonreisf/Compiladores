@@ -20,3 +20,6 @@ def verifica_existencia_caractere(character : str):
         return True
     else:
         return False
+
+def removerQuebraDeLinha(txt: str):
+    txt.replace('\n', '')

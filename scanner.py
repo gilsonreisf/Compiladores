@@ -2,7 +2,7 @@
 from tabela_de_estados import TabelaDeEstados
 
 
-class Scanner:
+class Scanner2:
   # def __init__(self, codigoFonte):
     # self.numLinha = 0
     # self.numColuna = 0
@@ -17,22 +17,44 @@ class Scanner:
 
 
   def scanner(self, tabelaEstados: TabelaDeEstados):
-    for char in self.codigoFonte:
+    while(self.codigoFonte):
+      char = self.codigoFonte[0]
       entrada = tabelaEstados.verificaTipoCaractere(char)
-      print(entrada)
       if(entrada == '$'):
-          return 'FINAL DE ARQUIVO' # Token(EOF)
+        if(tabelaEstados.verificarSeEstaEmEstadoFinal()):
+          print('Token: ', self.lexema) # Adiciona penúltimo token na tabela de símbolos
+          print('Fim de arquivo - Token EOF ')
+          self.codigoFonte = []
+          tabelaEstados.estado_atual = 0
+          self.lexema = ''
+          return 'FINAL DE ARQUIVO' # Adiciona último token na tabela de símbolos Token(EOF)
+        else:
+          linhaFake = '1'
+          self.lexema = ''
+          tabelaEstados.lancarErro(linhaFake)
+          self.codigoFonte.remove(char)
       elif (tabelaEstados.verificarSeEntradaPertenceAoAlfabeto(entrada)):
         if(tabelaEstados.verificarSeProximoEstadoEValido(entrada)):
           self.lexema = self.lexema + entrada
-          # self.scanner(tabelaEstados) # Como q faz recursividade nessa porra ???
-        elif (tabelaEstados.verificarSeEstaEmEstadoFinal(entrada)):
+          self.codigoFonte.remove(char)
+          self.scanner(tabelaEstados)
+        elif (tabelaEstados.verificarSeEstaEmEstadoFinal()):
+          print('Token: ', self.lexema)
+          tabelaEstados.estado_atual = 0
           self.lexema = ''
-          return entrada # Retorna token da entrada
+          return entrada # Adiciona token na tabela de símbolos
+        else:
+          linhaFake = '1'
+          self.lexema = ''
+          tabelaEstados.lancarErro(linhaFake)
+          self.codigoFonte.remove(char)
+
       else:
+        linhaFake = '1'
+        print('ERRO LÉXICO – Caracter inválido, linha', entrada)
         self.lexema = ''
-        print('ENTRADA: ', entrada)
-        tabelaEstados.lancarErro('2')
+        self.codigoFonte.remove(char)
+        tabelaEstados.estado_atual = 0
 
 
         

@@ -2,7 +2,7 @@
 from tabela_de_estados import TabelaDeEstados
 
 
-class Scanner2:
+class Scanner:
   # def __init__(self, codigoFonte):
     # self.numLinha = 0
     # self.numColuna = 0

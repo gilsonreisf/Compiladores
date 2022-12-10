@@ -1,0 +1,11 @@
+1 - Fazer tratativa para o estado 4 na função verificaTipoCaractere
+
+2 - Montar tabela de símbolos
+
+3 - Montar os tokens nos prints da função scanner
+
+4 - Melhorar as tratativas de erros (precisa fazer uma forma de pegar a linha)
+
+5 - Analisar se o While vai ficar dentro do Scanner ou na função main q chama o scanner
+
+6 - Converter o arquivo de testo em um array de caractere pra passar como parâmetro pro scanner (precisa remover os \n na conversão)

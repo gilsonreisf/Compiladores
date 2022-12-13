@@ -25,6 +25,11 @@ class Scanner:
       if(entrada == '$'):
         if(tabelaEstados.verificarSeEstaEmEstadoFinal()):
           print('Token: ', self.lexema) # Adiciona penúltimo token na tabela de símbolos
+          self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, 
+                                      token=Token(classe = self.tabelaEstados.retornaClasse(), 
+                                                  lexema = self.lexema, 
+                                                  tipo = self.tabelaEstados.retornaTipo()))
+          #self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, token=Token(classe='EOF', lexema='EOF',tipo='NULO'))
           print('Fim de arquivo - Token EOF ')
           self.codigoFonte = []
           tabelaEstados.estado_atual = 0
@@ -42,7 +47,10 @@ class Scanner:
           self.scanner(tabelaEstados)
         elif (tabelaEstados.verificarSeEstaEmEstadoFinal()):
           print('Token: ', self.lexema)
-          #self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, token=Token(classe: str, lexema: str, tipo: str))
+          self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, 
+                                                token=Token(classe = self.tabelaEstados.retornaClasse(), 
+                                                            lexema = self.lexema, 
+                                                            tipo = self.tabelaEstados.retornaTipo()))
           tabelaEstados.estado_atual = 0
           self.lexema = ''
           return entrada # Adiciona token na tabela de símbolos
@@ -59,5 +67,9 @@ class Scanner:
         self.codigoFonte.remove(char)
         tabelaEstados.estado_atual = 0
 
-
+  def construir_token(tabela_de_estados, lexema, classe, tipo):
+    token = Token(classe = tabela_de_estados.retornaClasse(), 
+                  lexema = lexema, 
+                  tipo = 
+                  )
         

@@ -8,4 +8,8 @@ class Token:
         return f"Classe: {self.classe}, Lexema: {self.lexema}, Tipo: {self.tipo}"
         
     def __repr__(self) -> str:
-        return f"Classe: {self.classe}, Lexema: {self.lexema}, Tipo: {self.tipo}"
+       return f"Classe: {self.classe}, Lexema: {self.lexema}, Tipo: {self.tipo}"
+
+    def __eq__(self, other):
+        assert isinstance(other, Token)
+        return self.lexema == other.lexema

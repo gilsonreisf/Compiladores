@@ -1,6 +1,6 @@
 1 - Fazer tratativa para o estado 4 na função verificaTipoCaractere
 
-2 - Montar tabela de símbolos
+2 - Montar tabela de símbolos ------------------------------- DONE
 
 3 - Montar os tokens nos prints da função scanner
 

@@ -1,19 +1,20 @@
 
 from tabela_de_estados import TabelaDeEstados
-
+from Tabela_de_Simbolos import Tabela_de_Simbolos
+from Token import Token
 
 class Scanner:
-  # def __init__(self, codigoFonte):
-    # self.numLinha = 0
-    # self.numColuna = 0
-    # self.codigoFonte = codigoFonte
-    # self.tamanhoDoCodigo = len(codigoFonte)
-    # self.tamanhoDaLinha = len(codigoFonte[self.numLinha])
-    # self.tabelaDeSimbolos = ts.TabelaDeSimbolos()
-    # self.listaDeTextos = []
-  def __init__(self):
-    self.codigoFonte = ['a' , 'b'] + ['$'] #codigo
+  def __init__(self, codigoFonte):
+    self.numero_da_coluna = 0
+    self.codigoFonte = codigoFonte
+    self.tamanhoDoCodigo = len(codigoFonte)
+    self.tamanhoDaLinha = len(codigoFonte[self.numero_da_linha])
+    self.lista_de_textos = []
     self.lexema = ''
+    self.Tabela_de_Simbolos = Tabela_de_Simbolos()
+    self.numero_da_linha = 0
+    self.codigoFonte = ['a' , 'b'] + ['$'] #codigo
+
 
 
   def scanner(self, tabelaEstados: TabelaDeEstados):

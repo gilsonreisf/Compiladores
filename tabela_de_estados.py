@@ -138,7 +138,9 @@ class TabelaDeEstados:
 
   def verificaTipoCaractere(self, char):
     if (char in self.letras):
-      # TODO - Verificar se é "E" ou "e" por causa do estado 4 com números
+        if char == 'e'or char == 'E':
+          return 'E'
+        else:  
           return 'L'
     elif (char in self.digitos):
           return 'D'

@@ -1,19 +1,22 @@
 arquivo = open("teste.txt", "r")
 codigoFonte = arquivo.readlines()
 
-def cleanCode(codigoFonte):
-  size=len(codigoFonte)-1
-  codigoFonte[size] = codigoFonte[size]+'\n'
-  try:
-      while True:
-          codigoFonte.remove('\n')
-  except ValueError:
-      pass
-  return codigoFonte
+def limpa_codigo(codigoFonte):
+  novo_codigo = []
+  for i in codigoFonte:
+    novo_codigo.append(i[:][:-1])
+  return novo_codigo
   
-codigoFormatado = cleanCode(codigoFonte)
+codigoFormatado = limpa_codigo(codigoFonte)
 
+codigo_final = []
+for line in codigoFormatado:
+    for caractere in line:
+        codigo_final.append(caractere)
 
+print(codigo_final)
+
+'''
 lexico = lex.AnalisadorLexico(codigoFormatado)
 token = lexico.SCANNER()
 print(token.toString())
@@ -25,3 +28,4 @@ while True:
   print(token.toString())
 print('\n')
 lexico.tabelaDeSimbolos.toString()
+'''

@@ -6,15 +6,16 @@ from Token import Token
 class Scanner:
   def __init__(self, codigoFonte):
     self.numero_da_coluna = 0
+    self.numero_da_linha = 0
     self.codigoFonte = codigoFonte
     self.tamanhoDoCodigo = len(codigoFonte)
     self.tamanhoDaLinha = len(codigoFonte[self.numero_da_linha])
     self.lista_de_textos = []
     self.lexema = ''
     self.Tabela_de_Simbolos = Tabela_de_Simbolos()
-    self.numero_da_linha = 0
-    self.codigoFonte = ['a' , 'b'] + ['$'] #codigo
 
+    self.codigoFonte = ['a' , 'b'] + ['$'] #codigo
+                    #codigo fonte  +  EOF fixo
 
 
   def scanner(self, tabelaEstados: TabelaDeEstados):
@@ -41,6 +42,7 @@ class Scanner:
           self.scanner(tabelaEstados)
         elif (tabelaEstados.verificarSeEstaEmEstadoFinal()):
           print('Token: ', self.lexema)
+          #self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, token=Token(classe: str, lexema: str, tipo: str))
           tabelaEstados.estado_atual = 0
           self.lexema = ''
           return entrada # Adiciona token na tabela de símbolos

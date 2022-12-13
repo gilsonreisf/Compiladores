@@ -1,11 +1,24 @@
-1 - Fazer tratativa para o estado 4 na função verificaTipoCaractere
+1 - Fazer tratativa para o estado 4 na função verificaTipoCaractere ------- DONE
 
-2 - Montar tabela de símbolos ------------------------------- DONE
+2 - Montar tabela de símbolos --------------------------------------------- DONE
 
 3 - Montar os tokens nos prints da função scanner
 
 4 - Melhorar as tratativas de erros (precisa fazer uma forma de pegar a linha)
+Resposta:
+Para pegar a linha, tem que refazer a logica do scanner, que ao invés de 
+transformar o codigo em um grande array, usar uma lista de linhas (strings)
 
-5 - Analisar se o While vai ficar dentro do Scanner ou na função main q chama o scanner
+5 - Analisar se o While vai ficar dentro do Scanner ou na função main q chama o 
+RESPOSTA: Em ambos (tem while no scanner e no main)
 
 6 - Converter o arquivo de testo em um array de caractere pra passar como parâmetro pro scanner (precisa remover os \n na conversão)
+6 ---DONE
+
+
+TODO 1:
+20:00 23:00 3h
+
+TODO 2:
+
+23:00 23:36 36 min

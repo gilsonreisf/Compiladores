@@ -15,10 +15,17 @@ RESPOSTA: Em ambos (tem while no scanner e no main)
 6 - Converter o arquivo de testo em um array de caractere pra passar como parâmetro pro scanner (precisa remover os \n na conversão)
 6 ---DONE
 
+_________________________________________________________________________________________________________________________
 
-TODO 1:
-20:00 23:00 3h
+Novos TODOS:
 
-TODO 2:
+Terminar o main.
 
-23:00 23:36 36 min
+para isso, precisa terminar o scanner
+
+para isso, precisa colocar o scanner pra reconhecer linhas e criar tokens
+(
+    talvez para isso precise abrir mão de tratar o codigo fonte como
+     se fosse uma grande lista com caracteres
+)
+para isso, precisa usar a tabela de estados para saber qual a classe, (lexema ja tem), e tipo, na hora de criar o token

@@ -152,6 +152,26 @@ class TabelaDeEstados:
     else: 
       return False
 
+  def retornaClasse(self):
+    return self.estados_finais[self.estado_atual]
+
+  def retornaTipo(self):
+    classe = self.retornaClasse()
+
+    if classe == 'Num':
+      if self.estado_atual == 1:
+        return 'inteiro'
+      elif (self.estado_atual == 3) or (self.estado_atual == 6):
+        return 'real'
+    elif classe == 'Lit':
+      return 'literal'
+    elif classe == 'id':
+      return 'NULO'
+    elif classe == 'ERRO':
+      return 'NULO'
+    else:
+      return 'NULO'
+
 
   # def preencheToken(self, tabelaDeEstados, importToken, lexema):
   #   classe = tabelaDeEstados.obterClasseDoEstadoFinal()

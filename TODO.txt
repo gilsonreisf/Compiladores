@@ -28,4 +28,6 @@ para isso, precisa colocar o scanner pra reconhecer linhas e criar tokens
     talvez para isso precise abrir mão de tratar o codigo fonte como
      se fosse uma grande lista com caracteres
 )
+__________________________
 para isso, precisa usar a tabela de estados para saber qual a classe, (lexema ja tem), e tipo, na hora de criar o token
+DONE----------------------

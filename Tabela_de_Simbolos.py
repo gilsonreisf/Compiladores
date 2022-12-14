@@ -1,4 +1,5 @@
 from Token import Token
+from tabela_de_estados import TabelaDeEstados
 
 class Tabela_de_Simbolos:
     def __init__(self):
@@ -22,7 +23,7 @@ class Tabela_de_Simbolos:
     def buscar_token(self, token:Token):
             for t in self.tabela:
                 if(t.lexema == token.lexema):
-                    return token
+                    return t
             return None
         
 
@@ -45,4 +46,15 @@ class Tabela_de_Simbolos:
     def imprimir_tabela(self):
             for t in self.tabela:
                 print(f"Classe:{t.classe}, Lexema:{t.lexema}, Tipo:{t.tipo}")
-        
+
+    def construir_token(self, tabela_de_estados: TabelaDeEstados, lexema: str):
+        classe = tabela_de_estados.retornaClasse()
+        tipo = tabela_de_estados.retornaTipo()
+        if classe == 'id':
+            token = self.buscar_token(Token(classe, lexema, tipo))
+            if token == None:
+                token = self.inserir_token(Token(classe, lexema, tipo))
+
+            return token
+        else:
+            return Token(classe, lexema, tipo)

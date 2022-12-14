@@ -21,9 +21,6 @@ class Scanner:
     self.numero_da_coluna = 0
     self.numero_da_linha = 0
     self.codigoFonte = codigoFonte
-    self.tamanhoDoCodigo = len(codigoFonte)
-    self.tamanhoDaLinha = len(codigoFonte[self.numero_da_linha])
-    self.lista_de_textos = []
     self.lexema = ''
     self.Tabela_de_Simbolos = Tabela_de_Simbolos()
     self.arrayParaIdentificarColuna = []

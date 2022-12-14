@@ -38,7 +38,7 @@ class Scanner:
           self.lexema = ''
           return 'FINAL DE ARQUIVO' # Adiciona último token na tabela de símbolos Token(EOF)
         else:
-          print('LEXEMA 1: ', lexema)
+          print('LEXEMA 1: ', self.lexema)
           tabelaEstados.lancarErro(self.numero_da_linha)
           arrayDeCaracteres.remove(char)
           self.lexema = ''

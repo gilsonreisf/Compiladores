@@ -1,82 +1,75 @@
-
 from tabela_de_estados import TabelaDeEstados
 from Tabela_de_Simbolos import Tabela_de_Simbolos
 from Token import Token
-
-def construir_token(tabela_de_simbolos, tabela_de_estados, lexema):
-  classe = tabela_de_estados.retornaClasse()
-  tipo = tabela_de_estados.retornaTipo()
-  if classe == 'id':
-    token = tabela_de_simbolos.buscar_token(Token(classe, lexema, tipo))
-    if token == None:
-      token = tabela_de_simbolos.inserir_token(Token(classe, lexema, tipo))
-    
-    return token
-  else:
-    return Token(classe, lexema, tipo)
-
-
 class Scanner:
   def __init__(self, codigoFonte):
     self.numero_da_coluna = 0
     self.numero_da_linha = 0
     self.codigoFonte = codigoFonte
-    self.tamanhoDoCodigo = len(codigoFonte)
-    self.tamanhoDaLinha = len(codigoFonte[self.numero_da_linha])
-    self.lista_de_textos = []
     self.lexema = ''
     self.Tabela_de_Simbolos = Tabela_de_Simbolos()
     self.arrayParaIdentificarColuna = []
 
 
-  def scanner(self, tabelaEstados: TabelaDeEstados, arrayDeCaracteres: list[str]):
-    while(arrayDeCaracteres):
-      char = arrayDeCaracteres[0]
-      entrada = tabelaEstados.verificaTipoCaractere(char).strip()
-      if(entrada == '$'):
-        if(tabelaEstados.verificarSeEstaEmEstadoFinal()):
-          print('Token: ', self.lexema) # Adiciona penúltimo token na tabela de símbolos
-          self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, 
-                                      token=Token(classe = self.tabelaEstados.retornaClasse(), 
-                                                  lexema = self.lexema, 
-                                                  tipo = self.tabelaEstados.retornaTipo()))
-          #self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, token=Token(classe='EOF', lexema='EOF',tipo='NULO'))
-          print('Fim de arquivo - Token EOF ')
-          arrayDeCaracteres = []
-          tabelaEstados.estado_atual = 0
-          self.lexema = ''
-          # Adiciona token na tabela de símbolos Token(EOF)
-        else:
-          tabelaEstados.lancarErro(self.numero_da_linha)
-          arrayDeCaracteres.remove(char)
-          self.lexema = ''
-      elif (tabelaEstados.verificarSeEntradaPertenceAoAlfabeto(entrada)):
-        if(tabelaEstados.verificarSeProximoEstadoEValido(entrada)):
-          self.lexema = self.lexema + char.strip()
-          arrayDeCaracteres.remove(char)
-          self.scanner(tabelaEstados, arrayDeCaracteres)
-        elif (tabelaEstados.verificarSeEstaEmEstadoFinal()):
-          print('Token: ', self.lexema)
-          self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, 
-                                                token=Token(classe = self.tabelaEstados.retornaClasse(), 
-                                                            lexema = self.lexema, 
-                                                            tipo = self.tabelaEstados.retornaTipo()))
-          tabelaEstados.estado_atual = 0
-          self.lexema = ''
-          # Adiciona token na tabela de símbolos
-        else:
-          tabelaEstados.lancarErro(self.numero_da_linha)
-          arrayDeCaracteres.remove(char)
-          self.lexema = ''
-      elif(tabelaEstados.entradaVazia(char)):
-        arrayDeCaracteres.remove(char)
-        continue
-      else:
-        self.numero_da_coluna = self.arrayParaIdentificarColuna.index(char) + 1
-        print('ERRO LÉXICO – Caracter inválido, linha {}, coluna {}'.format(self.numero_da_linha, self.numero_da_coluna) )
-        self.lexema = ''
-        arrayDeCaracteres.remove(char)
+  def scanner(self, tabelaEstados: TabelaDeEstados, arrayDeCaracteres: str, finalDaInstrucao = False):
+    char = arrayDeCaracteres
+    entrada = tabelaEstados.verificaTipoCaractere(char).strip()
+    if(entrada == '$'):
+      if (tabelaEstados.verificarSeEstaEmEstadoFinal()):
+        #self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, 
+        #                                      token=Token(classe = tabelaEstados.retornaClasse(), 
+        #                                                  lexema = self.lexema, 
+        #                                                  tipo = tabelaEstados.retornaTipo()))
+        print('TOKEN - Classe: {}, Lexema: {}, Tipo: {}'.format(tabelaEstados.retornaClasse(), self.lexema, tabelaEstados.retornaTipo()))
         tabelaEstados.estado_atual = 0
+        self.lexema = ''
+        return 'TOKEN'
+      else:
+        tabelaEstados.lancarErro(self.numero_da_linha)
+        self.lexema = ''
+        print('TOKEN - Classe: EOF, Lexema: EOF, Tipo: EOF')
+        #self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, token=Token(classe='EOF', lexema='EOF',tipo='NULO'))
+      return 'EOF'
+    if (tabelaEstados.verificarSeEntradaPertenceAoAlfabeto(entrada)):
+      if(tabelaEstados.verificarSeProximoEstadoEValido(entrada)):
+        self.lexema = self.lexema + char.strip()
+        # arrayDeCaracteres.remove(char)
+        # self.scanner(tabelaEstados, arrayDeCaracteres)
+        # continue
+        return 'chamar_novamente'
+      elif (tabelaEstados.verificarSeEstaEmEstadoFinal()):
+        #self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, 
+        #                                      token=Token(classe = tabelaEstados.retornaClasse(), 
+        #                                                  lexema = self.lexema, 
+        #                                                  tipo = tabelaEstados.retornaTipo()))
+        print('TOKEN - Classe: {}, Lexema: {}, Tipo: {}'.format(tabelaEstados.retornaClasse(), self.lexema, tabelaEstados.retornaTipo()))
+        tabelaEstados.estado_atual = 0
+        self.lexema = ''
+        return 'TOKEN'
+      else:
+        tabelaEstados.lancarErro(self.numero_da_linha)
+        self.lexema = ''
+    elif(tabelaEstados.entradaVazia(char)):
+      return
+    else:
+      self.numero_da_coluna = self.arrayParaIdentificarColuna.index(char) + 1
+      print('ERRO LÉXICO – Caracter inválido, linha {}, coluna {}'.format(self.numero_da_linha, self.numero_da_coluna))
+      self.lexema = ''
+      tabelaEstados.estado_atual = 0
+    if (tabelaEstados.verificarSeEstaEmEstadoFinal()):
+      #self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, 
+      #                                      token=Token(classe = tabelaEstados.retornaClasse(), 
+      #                                                  lexema = self.lexema, 
+      #                                                  tipo = tabelaEstados.retornaTipo()))
+      print('TOKEN - Classe: {}, Lexema: {}, Tipo: {}'.format(tabelaEstados.retornaClasse(), self.lexema, tabelaEstados.retornaTipo()))
+      tabelaEstados.estado_atual = 0
+      self.lexema = ''
+      return 'TOKEN'
+    else:
+      tabelaEstados.lancarErro(self.numero_da_linha)
+      self.lexema = ''
+      return
+
 
 
   def limpa_codigo(self, codigoFonteFormatado):
@@ -88,7 +81,42 @@ class Scanner:
 
   def scannerMain(self, tabelaEstados: TabelaDeEstados, codigoFonte):
     for linha in codigoFonte:
+      finalDaInstrucao = False
+      print('-'*30)
       arrayDeCaracteres = self.limpa_codigo(linha)
       self.arrayParaIdentificarColuna = arrayDeCaracteres.copy()
+
       self.numero_da_linha += 1
-      self.scanner(tabelaEstados, arrayDeCaracteres)
+      coluna = 0
+      retorno = self.scanner(tabelaEstados, arrayDeCaracteres[0].replace(" ", ""))
+      print('Retorno 1: ', retorno)
+      if(retorno != 'TOKEN'):
+        arrayDeCaracteres.pop(0)
+
+
+
+      if(retorno == 'EOF'):
+        return # Final do arquivo
+      while(retorno != 'EOF' and len(arrayDeCaracteres) != 0):
+        if(retorno == 'chamar_novamente'):
+          coluna += 1
+          retorno = self.scanner(tabelaEstados, arrayDeCaracteres[0].replace(" ", ""))
+          if(retorno != 'TOKEN'):
+            arrayDeCaracteres.pop(0)
+          print('Retorno 2: ', retorno)
+        elif(retorno == 'TOKEN'):
+          retorno = self.scanner(tabelaEstados, arrayDeCaracteres[0].replace(" ", ""))
+          print('Retorno 3: ', retorno)
+          arrayDeCaracteres.pop(0)
+        elif(retorno == None):
+          arrayDeCaracteres.pop(0)
+
+
+      finalDaInstrucao = True
+      retorno = self.scanner(tabelaEstados, '', True)
+      
+
+
+
+
+    

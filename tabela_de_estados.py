@@ -13,7 +13,7 @@ class TabelaDeEstados:
 
     self.tabela_de_estados = {
 
-          0: {'D':1, '"':7, 'L':10, '{':12, 'EOF':15, '<':16, '>':26, '=':28, '+':18, '-':18, '*':18, '/':18, '(':19, ')':20, ';':21, ',':22, ' ':0, '':0},       
+          0: {'D':1, '"':7, 'L':10, '{':12, 'EOF':15, '<':16, '>':26, '=':28, '+':18, '-':18, '*':18, '/':18, '(':19, ')':20, ';':21, ',':22},       
 
           1: {'D':1, '.':2, 'E':4, 'e':4},
 
@@ -138,9 +138,6 @@ class TabelaDeEstados:
 
   def verificaTipoCaractere(self, char):
     if (char in self.letras):
-        if char == 'e'or char == 'E':
-          return 'E'
-        else:  
           return 'L'
     elif (char in self.digitos):
           return 'D'
@@ -195,3 +192,10 @@ class TabelaDeEstados:
       return True
     else: 
       return False
+
+
+# def tratarCaracterE(self, char):
+#   if (char == 'e'or char == 'E') and (self.estado_atual == 3 or self.estado_atual == 1):
+#     return 'E'
+#   else:  
+#     return 'L'

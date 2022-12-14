@@ -13,10 +13,10 @@ class Scanner:
     self.lista_de_textos = []
     self.lexema = ''
     self.Tabela_de_Simbolos = Tabela_de_Simbolos()
+    self.arrayParaIdentificarColuna = []
 
 
   def scanner(self, tabelaEstados: TabelaDeEstados, arrayDeCaracteres: list[str]):
-    print('CODIGO: ', arrayDeCaracteres)
     while(arrayDeCaracteres):
       char = arrayDeCaracteres[0]
       entrada = tabelaEstados.verificaTipoCaractere(char).strip()
@@ -30,15 +30,13 @@ class Scanner:
           print('Classe: ', tabelaEstados.retornaClasse())
           print('Lexema: ', self.lexema)
           print('Tipo: ', tabelaEstados.retornaTipo())
-          print('='*15)
           #self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, token=Token(classe='EOF', lexema='EOF',tipo='NULO'))
           print('Fim de arquivo - Token EOF ')
           arrayDeCaracteres = []
           tabelaEstados.estado_atual = 0
           self.lexema = ''
-          # Adiciona último token na tabela de símbolos Token(EOF)
+          # Adiciona token na tabela de símbolos Token(EOF)
         else:
-          print('LEXEMA 1: ', self.lexema)
           tabelaEstados.lancarErro(self.numero_da_linha)
           arrayDeCaracteres.remove(char)
           self.lexema = ''
@@ -55,25 +53,19 @@ class Scanner:
           print('Classe: ', tabelaEstados.retornaClasse())
           print('Lexema: ', self.lexema)
           print('Tipo: ', tabelaEstados.retornaTipo())
-          print('='*15)
           tabelaEstados.estado_atual = 0
           self.lexema = ''
           # Adiciona token na tabela de símbolos
         else:
-          print('LEXEMA 2: ', self.lexema)
           tabelaEstados.lancarErro(self.numero_da_linha)
           arrayDeCaracteres.remove(char)
           self.lexema = ''
       elif(tabelaEstados.entradaVazia(char)):
         arrayDeCaracteres.remove(char)
-        print('ENTRADA VAZIA')
         continue
       else:
-        self.numero_da_coluna = arrayDeCaracteres.index(char)
-        
-        print('LEXEMA 3: ', self.lexema)
-        print('ERRO LÉXICO – Caracter inválido, linha', self.numero_da_linha)
-        print('ERRO LÉXICO – Caracter inválido, COLUNA', self.numero_da_coluna)
+        self.numero_da_coluna = self.arrayParaIdentificarColuna.index(char) + 1
+        print('ERRO LÉXICO – Caracter inválido, linha {}, coluna {}'.format(self.numero_da_linha, self.numero_da_coluna) )
         self.lexema = ''
         arrayDeCaracteres.remove(char)
         tabelaEstados.estado_atual = 0
@@ -88,9 +80,7 @@ class Scanner:
 
   def scannerMain(self, tabelaEstados: TabelaDeEstados, codigoFonte):
     for linha in codigoFonte:
-      codigoFormatado = self.limpa_codigo(linha)
-      print('-'*30)
+      arrayDeCaracteres = self.limpa_codigo(linha)
+      self.arrayParaIdentificarColuna = arrayDeCaracteres.copy()
       self.numero_da_linha += 1
-      print('Linha: ', linha)
-      print('NUMERO LINHA: ', self.numero_da_linha)
-      self.scanner(tabelaEstados, codigoFormatado)
+      self.scanner(tabelaEstados, arrayDeCaracteres)

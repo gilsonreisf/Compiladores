@@ -26,15 +26,13 @@ class Scanner:
     self.lista_de_textos = []
     self.lexema = ''
     self.Tabela_de_Simbolos = Tabela_de_Simbolos()
-
-    self.codigoFonte = ['a' , 'b'] + ['$'] #codigo
-                    #codigo fonte  +  EOF fixo
+    self.arrayParaIdentificarColuna = []
 
 
-  def scanner(self, tabelaEstados: TabelaDeEstados):
-    while(self.codigoFonte):
-      char = self.codigoFonte[0]
-      entrada = tabelaEstados.verificaTipoCaractere(char)
+  def scanner(self, tabelaEstados: TabelaDeEstados, arrayDeCaracteres: list[str]):
+    while(arrayDeCaracteres):
+      char = arrayDeCaracteres[0]
+      entrada = tabelaEstados.verificaTipoCaractere(char).strip()
       if(entrada == '$'):
         if(tabelaEstados.verificarSeEstaEmEstadoFinal()):
           print('Token: ', self.lexema) # Adiciona penúltimo token na tabela de símbolos
@@ -44,20 +42,19 @@ class Scanner:
                                                   tipo = self.tabelaEstados.retornaTipo()))
           #self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, token=Token(classe='EOF', lexema='EOF',tipo='NULO'))
           print('Fim de arquivo - Token EOF ')
-          self.codigoFonte = []
+          arrayDeCaracteres = []
           tabelaEstados.estado_atual = 0
           self.lexema = ''
-          return 'FINAL DE ARQUIVO' # Adiciona último token na tabela de símbolos Token(EOF)
+          # Adiciona token na tabela de símbolos Token(EOF)
         else:
-          linhaFake = '1'
+          tabelaEstados.lancarErro(self.numero_da_linha)
+          arrayDeCaracteres.remove(char)
           self.lexema = ''
-          tabelaEstados.lancarErro(linhaFake)
-          self.codigoFonte.remove(char)
       elif (tabelaEstados.verificarSeEntradaPertenceAoAlfabeto(entrada)):
         if(tabelaEstados.verificarSeProximoEstadoEValido(entrada)):
-          self.lexema = self.lexema + entrada
-          self.codigoFonte.remove(char)
-          self.scanner(tabelaEstados)
+          self.lexema = self.lexema + char.strip()
+          arrayDeCaracteres.remove(char)
+          self.scanner(tabelaEstados, arrayDeCaracteres)
         elif (tabelaEstados.verificarSeEstaEmEstadoFinal()):
           print('Token: ', self.lexema)
           self.Tabela_de_Simbolos.inserir_token(self.Tabela_de_Simbolos, 
@@ -66,19 +63,32 @@ class Scanner:
                                                             tipo = self.tabelaEstados.retornaTipo()))
           tabelaEstados.estado_atual = 0
           self.lexema = ''
-          return entrada # Adiciona token na tabela de símbolos
+          # Adiciona token na tabela de símbolos
         else:
-          linhaFake = '1'
+          tabelaEstados.lancarErro(self.numero_da_linha)
+          arrayDeCaracteres.remove(char)
           self.lexema = ''
-          tabelaEstados.lancarErro(linhaFake)
-          self.codigoFonte.remove(char)
-
+      elif(tabelaEstados.entradaVazia(char)):
+        arrayDeCaracteres.remove(char)
+        continue
       else:
-        linhaFake = '1'
-        print('ERRO LÉXICO – Caracter inválido, linha', entrada)
+        self.numero_da_coluna = self.arrayParaIdentificarColuna.index(char) + 1
+        print('ERRO LÉXICO – Caracter inválido, linha {}, coluna {}'.format(self.numero_da_linha, self.numero_da_coluna) )
         self.lexema = ''
-        self.codigoFonte.remove(char)
+        arrayDeCaracteres.remove(char)
         tabelaEstados.estado_atual = 0
 
 
-        
+  def limpa_codigo(self, codigoFonteFormatado):
+    codigo_final = []
+    for line in codigoFonteFormatado:
+        for caractere in line:
+            codigo_final.append(caractere)
+    return codigo_final
+
+  def scannerMain(self, tabelaEstados: TabelaDeEstados, codigoFonte):
+    for linha in codigoFonte:
+      arrayDeCaracteres = self.limpa_codigo(linha)
+      self.arrayParaIdentificarColuna = arrayDeCaracteres.copy()
+      self.numero_da_linha += 1
+      self.scanner(tabelaEstados, arrayDeCaracteres)

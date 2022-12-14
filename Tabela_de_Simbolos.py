@@ -23,7 +23,7 @@ class Tabela_de_Simbolos:
     def buscar_token(self, token:Token):
             for t in self.tabela:
                 if(t.lexema == token.lexema):
-                    return token
+                    return t
             return None
         
 

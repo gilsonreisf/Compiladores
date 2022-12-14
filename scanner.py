@@ -11,6 +11,18 @@ class Scanner:
     self.arrayParaIdentificarColuna = []
 
 
+def construir_token(tabela_de_simbolos, tabela_de_estados, lexema):
+  classe = tabela_de_estados.retornaClasse()
+  tipo = tabela_de_estados.retornaTipo()
+  if classe == 'id':
+    token = tabela_de_simbolos.buscar_token(Token(classe, lexema, tipo))
+    if token == None:
+      token = tabela_de_simbolos.inserir_token(Token(classe, lexema, tipo))
+
+    return token
+  else:
+    return Token(classe, lexema, tipo)
+
   def scanner(self, tabelaEstados: TabelaDeEstados, arrayDeCaracteres: str, finalDaInstrucao = False):
     char = arrayDeCaracteres
     entrada = tabelaEstados.verificaTipoCaractere(char).strip()

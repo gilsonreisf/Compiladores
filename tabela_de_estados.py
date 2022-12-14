@@ -13,7 +13,7 @@ class TabelaDeEstados:
 
     self.tabela_de_estados = {
 
-          0: {'D':1, '"':7, 'L':10, '{':12, 'EOF':15, '<':16, '>':26, '=':28, '+':18, '-':18, '*':18, '/':18, '(':19, ')':20, ';':21, ',':22, ' ':0},       
+          0: {'D':1, '"':7, 'L':10, '{':12, 'EOF':15, '<':16, '>':26, '=':28, '+':18, '-':18, '*':18, '/':18, '(':19, ')':20, ';':21, ',':22, ' ':0, '':0},       
 
           1: {'D':1, '.':2, 'E':4, 'e':4},
 
@@ -172,57 +172,8 @@ class TabelaDeEstados:
     else:
       return 'NULO'
 
-
-  # def preencheToken(self, tabelaDeEstados, importToken, lexema):
-  #   classe = tabelaDeEstados.obterClasseDoEstadoFinal()
-  #   tipo = "NULL"
-  #   lexema = lexema.strip()
-  #   if(classe == 'Num'):
-  #     if tabela.estadoAtual == 3 or tabela.estadoAtual == 11 : tipo = 'Real'
-  #     else: tipo = 'Inteiro'
-  #   elif(classe == 'Lit'): tipo = 'Literal'
-  #   token = importToken.Token(classe,lexema,tipo)  
-  #   if classe == 'id':
-  #     token = self.tabelaDeSimbolos.busca(token)
-  #   return token    
-
-
-  # def defineClasseTipo(state):
-  #   classe = None
-  #   tipo = None
-  #   isFinal = True
-  #   if state == "q1" or state == "q1_5":
-  #       classe = "NUM"
-  #       tipo = "inteiro"
-  #   elif state == "q1_2" or state == "q1_8":
-  #       classe = "NUM"
-  #       tipo = "real"
-  #   elif state == "q2_1":
-  #       classe = "LIT"
-  #       tipo = "literal"
-  #   elif state == "q3":
-  #       classe = "ID"
-  #   elif state == "q4_1":
-  #       classe = "COMENTARIO"
-  #   elif state == "q5":
-  #       classe = "EOF"
-  #   elif state == "q6" or state == "q7" or state == "q8":
-  #       classe = "OPR"
-  #   elif state == "q8_1":
-  #       classe = "RCB"
-  #   elif state == "q9":
-  #       classe = "OPM"
-  #   elif state == "q10":
-  #       classe = "AB_P"
-  #   elif state == "q11":
-  #       classe = "FC_P"
-  #   elif state == "q12":
-  #       classe = "PT_V"
-  #   elif state == "q13":
-  #       classe = "VIR"
-  #   elif state == "q14":
-  #       classe = "ERRO"
-  #   else:
-  #       isFinal = False
-
-  #   return classe, tipo, isFinal
+  def entradaVazia(self, entrada: str):
+    if (entrada.strip() == ''):
+      return True
+    else: 
+      return False

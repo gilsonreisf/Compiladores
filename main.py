@@ -1,3 +1,6 @@
+import tabela_de_estados as TabelaDeEstados
+import scanner as Scanner
+
 arquivo = open("teste.txt", "r")
 codigoFonte = arquivo.readlines()
 
@@ -9,12 +12,11 @@ def limpa_codigo(codigoFonte):
   
 codigoFormatado = limpa_codigo(codigoFonte)
 
-codigo_final = []
-for line in codigoFormatado:
-    for caractere in line:
-        codigo_final.append(caractere)
 
-print(codigo_final)
+tabelaEstados = TabelaDeEstados()
+scanner = Scanner(codigoFormatado)
+
+scanner.scannerMain(tabelaEstados, codigoFormatado)
 
 '''
 lexico = lex.AnalisadorLexico(codigoFormatado)

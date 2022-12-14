@@ -12,16 +12,16 @@ def limpa_codigo(codigoFonte):
 
 
 codigoFormatado = limpa_codigo(codigoFonte)
-print(codigoFormatado)
+#print(codigoFormatado)
 scanner = Scanner(codigoFormatado)
 token = scanner.scanner()
-#print(token)
+print(token)
 
 while True:
     if not(token):# and (token.classe == "EOF"):
         break
     token = scanner.scanner()
-    #print(token)
+    print(token)
 print('\n')
 
 scanner.Tabela_de_Simbolos.imprimir_tabela()

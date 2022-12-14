@@ -5,9 +5,9 @@ from Token import Token
 def construir_token(tabela_de_simbolos, tabela_de_estados, lexema):
   classe = tabela_de_estados.retornaClasse()
   tipo = tabela_de_estados.retornaTipo()
-  print('_'*20)
-  print(tipo)
-  print('_'*20)
+  #print('_'*20)
+  #print(tipo)
+  #print('_'*20)
   if classe == 'id':
     token = tabela_de_simbolos.buscar_token(Token(classe, lexema, tipo))
     if token == None:
@@ -24,7 +24,7 @@ class Scanner:
         self.numero_da_coluna = 0
         self.numero_da_linha = 0
         self.codigo_fonte = codigo_fonte + ['$']
-        print(self.codigo_fonte)
+        #print(self.codigo_fonte)
         self.tamanho_do_codigo = len(codigo_fonte)
         self.tamanho_da_linha = len(codigo_fonte[self.numero_da_linha])
         self.lista_de_textos = []
@@ -33,7 +33,7 @@ class Scanner:
         self.tabela_de_estados = TabelaDeEstados()
 
     def scanner(self):
-        self.lexema = ""
+        self.lexema = "".strip()
         caractere_invalido = False
         self.tabela_de_estados = TabelaDeEstados()
         while(self.numero_da_linha < self.tamanho_do_codigo):

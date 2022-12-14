@@ -1,4 +1,5 @@
 inicio
+    123 + 4
     varinicio
         literal A;
         inteiro B, D, E;

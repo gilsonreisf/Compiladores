@@ -3,6 +3,19 @@ from tabela_de_estados import TabelaDeEstados
 from Tabela_de_Simbolos import Tabela_de_Simbolos
 from Token import Token
 
+def construir_token(tabela_de_simbolos, tabela_de_estados, lexema):
+  classe = tabela_de_estados.retornaClasse()
+  tipo = tabela_de_estados.retornaTipo()
+  if classe == 'id':
+    token = tabela_de_simbolos.buscar_token(Token(classe, lexema, tipo))
+    if token == None:
+      token = tabela_de_simbolos.inserir_token(Token(classe, lexema, tipo))
+    
+    return token
+  else:
+    return Token(classe, lexema, tipo)
+
+
 class Scanner:
   def __init__(self, codigoFonte):
     self.numero_da_coluna = 0
@@ -67,9 +80,5 @@ class Scanner:
         self.codigoFonte.remove(char)
         tabelaEstados.estado_atual = 0
 
-  def construir_token(tabela_de_estados, lexema, classe, tipo):
-    token = Token(classe = tabela_de_estados.retornaClasse(), 
-                  lexema = lexema, 
-                  tipo = 
-                  )
+
         

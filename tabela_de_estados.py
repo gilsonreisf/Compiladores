@@ -142,7 +142,7 @@ class TabelaDeEstados:
           return 'E'
         else:  
           return 'L'
-    elif (char in self.digitos):
+    elif(char in self.digitos):
           return 'D'
     return char
 

@@ -9,7 +9,7 @@ def construir_token(tabela_de_simbolos, tabela_de_estados, lexema):
   if classe == 'id':
     token = tabela_de_simbolos.buscar_token(Token(classe, lexema, tipo))
     if token == None:
-      token = tabela_de_simbolos.inserir_token(Token(classe, lexema, tipo))
+      token = Token(classe, lexema, tipo)
     
     return token
   else:

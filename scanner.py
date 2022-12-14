@@ -11,7 +11,7 @@ class Scanner:
     self.arrayParaIdentificarColuna = []
 
 
-def construir_token(tabela_de_simbolos, tabela_de_estados, lexema):
+def construir_token(self, tabela_de_simbolos, tabela_de_estados, lexema):
   classe = tabela_de_estados.retornaClasse()
   tipo = tabela_de_estados.retornaTipo()
   if classe == 'id':

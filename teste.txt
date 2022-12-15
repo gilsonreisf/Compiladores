@@ -23,7 +23,7 @@ C<-5.0;
 E<-B+2;
 escreva C;
 B<-B+1;
-escreva "\nB=\n"; {\n é o símbolo para salto de linha}
+escreva "\nB=\n"; {e o simbolo para salto de linha}
 escreva D;
 escreva "\n";
 escreva C;

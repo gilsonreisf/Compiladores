@@ -52,9 +52,9 @@ class Tabela_de_Simbolos:
         tipo = tabela_de_estados.retornaTipo()
         if classe == 'id':
             token = self.buscar_token(Token(classe, lexema, tipo))
-            if token == None:
+            if token is None:
                 token = self.inserir_token(Token(classe, lexema, tipo))
-
+            self.atualizar_token(token)
             return token
         else:
             return Token(classe, lexema, tipo)

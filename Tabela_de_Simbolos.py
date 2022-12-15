@@ -44,6 +44,7 @@ class Tabela_de_Simbolos:
                     self.tabela.append(token)  
 
     def imprimir_tabela(self):
+            print(' \n -------------------------- Tabela de Símbolos --------------------------')
             for t in self.tabela:
                 print(f"Classe:{t.classe}, Lexema:{t.lexema}, Tipo:{t.tipo}")
 

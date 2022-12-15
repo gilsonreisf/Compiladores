@@ -14,10 +14,7 @@ class Scanner:
     char = arrayDeCaracteres
     entrada = tabelaEstados.verificaTipoCaractere(char).strip()
     if(entrada == '$'):
-      if (tabelaEstados.verificarSeEstaEmEstadoFinal()):
-        newToken = Token(tabelaEstados.retornaClasse(), self.lexema, tabelaEstados.retornaTipo())
-        return {'mensagem': 'TOKEN', 'token': newToken}
-      return {'mensagem': 'EOF', 'token': Token(classe='EOF', lexema='EOF',tipo='NULO')}
+      return {'mensagem': 'EOF', 'token': Token(classe='EOF', lexema='EOF',tipo='EOF')}
     if (tabelaEstados.verificarSeEntradaPertenceAoAlfabeto(entrada)):
       if(tabelaEstados.verificarSeProximoEstadoEValido(entrada)):
         self.lexema = self.lexema + char.strip()
@@ -30,31 +27,33 @@ class Scanner:
         return {'mensagem': 'TOKEN', 'token': newToken}
       else:
         tabelaEstados.lancarErro(self.numero_da_linha, self.numero_da_coluna)
-        return {'mensagem': None, 'token': None}
+        return {'mensagem': None, 'token': 'ERRO'}
     elif(tabelaEstados.entradaVazia(char)):
       if (tabelaEstados.verificarSeEstaEmEstadoFinal()):
         newToken = Token(tabelaEstados.retornaClasse(), self.lexema, tabelaEstados.retornaTipo())
         return {'mensagem': 'TOKEN', 'token': newToken}
       elif(tabelaEstados.verificarSeComentarioOuLiteral()):
         return {'mensagem': 'tratar_literal_comentario', 'token': None}
-
       else:
         return {'mensagem': 'chamar_novamente', 'token': None}
+    elif(tabelaEstados.verificarSeComentarioOuLiteral()):
+        return {'mensagem': 'tratar_literal_comentario', 'token': None}
     else:
       self.numero_da_coluna = self.arrayParaIdentificarColuna.index(char) + 1
       print('ERRO LÉXICO – Caracter inválido, linha {}, coluna {}'.format(self.numero_da_linha, self.numero_da_coluna))
-      return {'mensagem': None, 'token': None}
+      return {'mensagem': None, 'token': 'ERRO'}
 
 
 
-  def tratarFinalDaInstrucao(self, tabelaEstados: TabelaDeEstados):
+  def tratarFinalDaInstrucao(self, tabelaEstados: TabelaDeEstados, jaLancouErro = False):
     if (tabelaEstados.verificarSeEstaEmEstadoFinal()):
       newToken = Token(tabelaEstados.retornaClasse(), self.lexema, tabelaEstados.retornaTipo())
       return {'mensagem': 'TOKEN', 'token': newToken}
     else:
-      tabelaEstados.lancarErro(self.numero_da_linha, self.numero_da_coluna)
+      if(jaLancouErro == False):
+        tabelaEstados.lancarErro(self.numero_da_linha, self.numero_da_coluna)
       self.lexema = ''
-      return {'mensagem': None, 'token': None}
+      return {'mensagem': None, 'token': 'ERRO'}
 
 
 

@@ -59,7 +59,8 @@ def main(tabelaEstados: TabelaDeEstados, codigoFonte, tabelaDeSimbolos: Tabela_d
           retorno = scanner.scanner(tabelaEstados, arrayDeCaracteres[0].replace(" ", ""), tabelaDeSimbolos)
           continue
         elif(retorno['mensagem']  == None): #Espaço vazio
-          ultimoTokenAntesDoErro = scanner.tratarFinalDaInstrucao(tabelaEstados)
+          jaLancouErro = retorno['token'] == 'ERRO'
+          ultimoTokenAntesDoErro = scanner.tratarFinalDaInstrucao(tabelaEstados, jaLancouErro)
           if(ultimoTokenAntesDoErro['mensagem'] == 'TOKEN'):
             tokenTabela = tabelaDeSimbolos.construir_token(tabelaEstados, ultimoTokenAntesDoErro['token'].lexema)
             print('TOKEN - Classe: {}, Lexema: {}, Tipo: {}'.format(tokenTabela.classe, tokenTabela.lexema, tokenTabela.tipo))
@@ -89,3 +90,4 @@ scanner = Scanner()
 
 
 main(tabelaEstados, codigoFormatado, tabelaDeSimbolos, scanner)
+tabelaDeSimbolos.imprimir_tabela()

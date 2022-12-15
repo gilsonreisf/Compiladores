@@ -23,7 +23,7 @@ class Scanner:
     def __init__(self, codigo_fonte):
         self.numero_da_coluna = 0
         self.numero_da_linha = 0
-        self.codigo_fonte = codigo_fonte + ['$']
+        self.codigo_fonte = codigo_fonte
         #print(self.codigo_fonte)
         self.tamanho_do_codigo = len(codigo_fonte)
         self.tamanho_da_linha = len(codigo_fonte[self.numero_da_linha])
@@ -38,7 +38,7 @@ class Scanner:
         self.tabela_de_estados = TabelaDeEstados()
         while(self.numero_da_linha < self.tamanho_do_codigo):
             self.tamanho_da_linha = len(self.codigo_fonte[self.numero_da_linha])
-            while(self.numero_da_coluna < self.tamanho_da_linha - 1):
+            while(self.numero_da_coluna < self.tamanho_da_linha):
                 char = self.codigo_fonte[self.numero_da_linha][self.numero_da_coluna]
 
                 if char == '$':
@@ -61,8 +61,11 @@ class Scanner:
                             caractere_invalido = True
                             self.lexema = ""
                             self.numero_da_coluna = self.numero_da_coluna + 1
+                #elif (self.tabela_de_estados.entradaVazia(char)):
+                #    break
                 else:
-                    print(f"Erro Léxico -- Caractere Inválido na linha: {self.numero_da_linha + 1}") 
+                    #print("gilso quer reprovar")
+                    #print(f"Erro Léxico -- Caractere Inválido na linha: {self.numero_da_linha + 1}") 
                     self.numero_da_coluna = self.numero_da_coluna + 1
                     caractere_invalido = True   
                     self.tabela_de_estados.estado_atual = 0

@@ -1,5 +1,5 @@
 inicio
-    123 + 4
+    inteiro A = 1;
     varinicio
         literal A;
         inteiro B, D, E;
@@ -31,3 +31,4 @@ inicio
     escreva "\n";
     escreva A;
 fim
+$

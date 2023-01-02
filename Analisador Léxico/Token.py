@@ -11,9 +11,5 @@ class Token:
        return f"Classe: {self.classe}, Lexema: {self.lexema}, Tipo: {self.tipo}"
 
     def __eq__(self, other):
-        #assert isinstance(other, Token)
-        try:
-            if (self.lexema == other.lexema) and (self.classe == other.classe) and (self.tipo == other.tipo):
-                return True
-        except:
-            return False
+        assert isinstance(other, Token)
+        return self.lexema == other.lexema

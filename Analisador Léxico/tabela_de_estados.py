@@ -5,15 +5,15 @@ class TabelaDeEstados:
 
     self.digitos = ['0','1','2','3','4','5','6','7','8','9']
 
-    self.simbolos = ['"', '.', '_', '{', '}', '<', '>', '=', '-', '+', '*', '/', '(', ')', ';', ',']
+    self.simbolos = ['"', '.', '_', '{', '}', '<', '>', '=', '-', '+', '*', '/', '(', ')', ';', ',', ':', '\\']
 
-    self.outros = ['[', ']', '?', '!', '\\', '/', '&', '@', '|', ':']       #Esse aqui vai ser usado somente no estado de comentário e literal
+    self.espacos_vazios = [' ', '\n', '\t']
 
-    self.alfabeto = self.letras + self.digitos + self.simbolos
+    self.alfabeto = self.letras + self.digitos + self.simbolos + self.espacos_vazios
 
     self.tabela_de_estados = {
 
-          0: {'D':1, '"':7, 'L':10, '{':12, 'EOF':15, '<':16, '>':26, '=':28, '+':18, '-':18, '*':18, '/':18, '(':19, ')':20, ';':21, ',':22},       
+          0: {'D':1, '"':7, 'L':10, '{':12, '$':15, '<':16, '>':26, '=':28, '+':18, '-':18, '*':18, '/':18, '(':19, ')':20, ';':21, ',':22, ' ': 0, '\n': 0, '\t': 0},       
 
           1: {'D':1, '.':2, 'E':4, 'e':4},
 
@@ -27,9 +27,9 @@ class TabelaDeEstados:
 
           6: {'D':6},
 
-          7: {'[': 8, ']': 8, '?': 8, '!': 8, '\\': 8, '/': 8, '&': 8, '@': 8, '|': 8, '.': 8, '_': 8, '<': 8, '>': 8, '=': 8, '-': 8, '+': 8, '*': 8, '/': 8, '(': 8, ')': 8, ';': 8, ',': 8, '.':8, 'D':8, 'L':8, '{':8, '}':8, ':': 8, '"': 9 },
+          7: {'qualquerCoisa': 8, '"': 9},
 
-          8: {'[': 8, ']': 8, '?': 8, '!': 8, '\\': 8, '/': 8, '&': 8, '@': 8, '|': 8, '.': 8, '_': 8, '<': 8, '>': 8, '=': 8, '-': 8, '+': 8, '*': 8, '/': 8, '(': 8, ')': 8, ';': 8, ',': 8, '.':8, 'D':8, 'L':8, '{':8, '}':8, ':': 8, '"': 9 },    
+          8: {'qualquerCoisa': 8, '"': 9},    
 
           9: {},
 
@@ -37,9 +37,9 @@ class TabelaDeEstados:
 
           11: {'D':11, 'L':11, '_':11},
 
-          12: {'[': 13, ']': 13, '?': 13, '!': 13, '\\': 13, '/': 13, '&': 13, '@': 13, '|': 13, '"': 13, '.': 13, '_': 13, '<': 13, '>': 13, '=': 13, '-': 13, '+': 13, '*': 13, '/': 13, '(': 13, ')': 13, ';': 13, ',': 13, '.':13, 'D':13, 'L':13, ':': 13, '}': 14},
+          12: {'qualquerCoisa': 13, '}': 14},
 
-          13: {'[': 13, ']': 13, '?': 13, '!': 13, '\\': 13, '/': 13, '&': 13, '@': 13, '|': 13, '"': 13, '.': 13, '_': 13, '<': 13, '>': 13, '=': 13, '-': 13, '+': 13, '*': 13, '/': 13, '(': 13, ')': 13, ';': 13, ',': 13, '.':13, 'D':13, 'L':13, ':': 13, '}': 14},
+          13: {'qualquerCoisa': 13, '}': 14},
 
           14: {},
 
@@ -112,34 +112,37 @@ class TabelaDeEstados:
     self.estado_atual = 0
 
 
-  def verificarSeProximoEstadoEValido(self, char):
+  def irParaProximoEstado(self, char):
     try:
       self.estado_atual = self.tabela_de_estados[self.estado_atual][char]
-      return True
-
     except KeyError:
+      raise KeyError
+
+  def verificarSeComentarioOuLiteral(self):
+    estadosDeLiteral = [7, 8]
+    estadosDeComentario = [12, 13]
+    if((self.estado_atual in estadosDeLiteral) or (self.estado_atual in estadosDeComentario)):
+      return True
+    else: 
       return False
 
-  def verificarSeEstaEmEstadoFinal(self):
-    try:
-      self.estados_finais[self.estado_atual]
-      return True
 
-    except KeyError:
-      return False
-
-  def obterClasseDoEstadoFinal(self):
-    return self.estados_finais[self.estado_atual]
-
-
-  def lancarErro(self, linha):
-    print('ERRO LÉXICO –', self.estados_não_finais[self.estado_atual], 'linha', linha)
-    self.estado_atual = 0
+  def lancarErro(self, linha, coluna):
+    print('ERRO LÉXICO – {}, linha {}, coluna {}'.format(self.estados_não_finais[self.estado_atual], linha, coluna))
 
   def verificaTipoCaractere(self, char):
+    estadosDeDigitos = [1, 3]
+    estadosDeLiteral = [7, 8]
+    estadosDeComentario = [12, 13]
+
+    if((self.estado_atual in estadosDeLiteral) and char != '"') or ((self.estado_atual in estadosDeComentario) and char != '}'): #Tratamento para comentário e literal
+      return 'qualquerCoisa'
+          
     if (char in self.letras):
-          return 'L'
-    elif(char in self.digitos):
+      if(self.estado_atual in estadosDeDigitos):
+        return 'E'
+      return 'L'
+    elif (char in self.digitos):
           return 'D'
     return char
 
@@ -168,16 +171,3 @@ class TabelaDeEstados:
       return 'NULO'
     else:
       return 'NULO'
-
-  def entradaVazia(self, entrada: str):
-    if (entrada.strip() == ''):
-      return True
-    else: 
-      return False
-
-
-# def tratarCaracterE(self, char):
-#   if (char == 'e'or char == 'E') and (self.estado_atual == 3 or self.estado_atual == 1):
-#     return 'E'
-#   else:  
-#     return 'L'

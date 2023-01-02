@@ -1,7 +1,7 @@
 from Token import Token
 from tabela_de_estados import TabelaDeEstados
 
-class Tabela_de_Simbolos:
+class TabelaDeSimbolos:
     def __init__(self):
 
         self.tabela = []
@@ -20,15 +20,15 @@ class Tabela_de_Simbolos:
         self.tabela.append(Token(classe="real",lexema= "real",tipo= "real"))
 
 
-    def buscar_token(self, token:Token):
+    def buscarToken(self, token:Token):
             for t in self.tabela:
                 if(t.lexema == token.lexema):
                     return t
             return None
         
 
-    def inserir_token(self, token:Token):
-            token_encontrado = self.buscar_token(token)
+    def inserirToken(self, token:Token):
+            token_encontrado = self.buscarToken(token)
             if(token_encontrado is None):
                 if(token.classe == "id"):
                     self.tabela.append(token)
@@ -36,25 +36,30 @@ class Tabela_de_Simbolos:
             else:
                 return token_encontrado
 
-    def atualizar_token(self, token: Token):
+    def atualizarToken(self, token: Token):
         if(token.classe == "id"):
-                token_tabela_simbolos = self.buscar_token(token)
+                token_tabela_simbolos = self.buscarToken(token)
                 if(token_tabela_simbolos):
                     self.tabela.remove(token_tabela_simbolos)
                     self.tabela.append(token)  
 
-    def imprimir_tabela(self):
+    def imprimirTabela(self):
+            print(' \n -------------------------- Tabela de Símbolos --------------------------')
             for t in self.tabela:
                 print(f"Classe:{t.classe}, Lexema:{t.lexema}, Tipo:{t.tipo}")
 
-    def construir_token(self, tabela_de_estados: TabelaDeEstados, lexema: str):
-        classe = tabela_de_estados.retornaClasse()
-        tipo = tabela_de_estados.retornaTipo()
-        if classe == 'id':
-            token = self.buscar_token(Token(classe, lexema, tipo))
-            if token == None:
-                token = self.inserir_token(Token(classe, lexema, tipo))
+    def construirToken(self, tabelaDeEstados: TabelaDeEstados, lexema: str, erro=False):
+        if (erro) or (tabelaDeEstados.estado_atual not in tabelaDeEstados.estados_finais):
+            return Token('ERROR', lexema, None)
 
+        classe = tabelaDeEstados.retornaClasse()
+        tipo = tabelaDeEstados.retornaTipo()
+        if classe == 'id':
+            token = self.buscarToken(Token(classe, lexema, tipo))
+            if token is None:
+                token = self.inserirToken(Token(classe, lexema, tipo))
+            self.atualizarToken(token)
             return token
         else:
             return Token(classe, lexema, tipo)
+    

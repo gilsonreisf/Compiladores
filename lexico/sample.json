@@ -1,0 +1,42 @@
+[
+    {
+        "classe": "inicio",
+        "lexema": "inicio",
+        "tipo": "inicio"
+    },
+    {
+        "classe": "varinicio",
+        "lexema": "varinicio",
+        "tipo": "varinicio"
+    },
+    {
+        "classe": "literal",
+        "lexema": "literal",
+        "tipo": "literal"
+    },
+    {
+        "classe": "id",
+        "lexema": "A",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "varfim",
+        "lexema": "varfim",
+        "tipo": "varfim"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "fim",
+        "lexema": "fim",
+        "tipo": "fim"
+    },
+    {
+        "classe": "EOF",
+        "lexema": "EOF",
+        "tipo": null
+    }
+]

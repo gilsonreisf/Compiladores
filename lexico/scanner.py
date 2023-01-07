@@ -2,7 +2,7 @@ from Token import Token
 from caractere_invalido_error import CaractereInvalidoError
 from tabela_de_estados import TabelaDeEstados
 from tabela_de_simbolos import TabelaDeSimbolos
-from funcoes_auxiliares import lerArquivo
+from funcoes_auxiliares_lexico import lerArquivo
 
 
 
@@ -72,7 +72,7 @@ class Scanner:
                 self.lancaErro(tabelaEstados.estado_atual, char)
                 self.avancaLeitura()
                 
-                return tabelaDeSimbolos.construirToken(tabelaEstados, lexema, True)
+                return tabelaDeSimbolos.construirToken(tabelaEstados, char, True)
 
             except KeyError: # Erro quando o próximo estado é inválido
                 if (tabelaEstados.estado_atual == 4 or tabelaEstados.estado_atual == 5): # Número exponencial incompleto

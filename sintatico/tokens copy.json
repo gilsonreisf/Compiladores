@@ -1,0 +1,462 @@
+[
+    {
+        "classe": "inicio",
+        "lexema": "inicio",
+        "tipo": "inicio"
+    },
+    {
+        "classe": "varinicio",
+        "lexema": "varinicio",
+        "tipo": "varinicio"
+    },
+    {
+        "classe": "literal",
+        "lexema": "literal",
+        "tipo": "literal"
+    },
+    {
+        "classe": "id",
+        "lexema": "A",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "inteiro",
+        "lexema": "inteiro",
+        "tipo": "inteiro"
+    },
+    {
+        "classe": "id",
+        "lexema": "B",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "VIR",
+        "lexema": ",",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "id",
+        "lexema": "D",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "real",
+        "lexema": "real",
+        "tipo": "real"
+    },
+    {
+        "classe": "id",
+        "lexema": "C",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "varfim",
+        "lexema": "varfim",
+        "tipo": "varfim"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "escreva",
+        "lexema": "escreva",
+        "tipo": "escreva"
+    },
+    {
+        "classe": "Lit",
+        "lexema": "\"Digite B:\"",
+        "tipo": "literal"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "leia",
+        "lexema": "leia",
+        "tipo": "leia"
+    },
+    {
+        "classe": "id",
+        "lexema": "B",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "escreva",
+        "lexema": "escreva",
+        "tipo": "escreva"
+    },
+    {
+        "classe": "Lit",
+        "lexema": "\"Digite A:\"",
+        "tipo": "literal"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "leia",
+        "lexema": "leia",
+        "tipo": "leia"
+    },
+    {
+        "classe": "id",
+        "lexema": "A",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "se",
+        "lexema": "se",
+        "tipo": "se"
+    },
+    {
+        "classe": "AB_P",
+        "lexema": "(",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "id",
+        "lexema": "B",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "OPR",
+        "lexema": ">",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "Num",
+        "lexema": "2",
+        "tipo": "inteiro"
+    },
+    {
+        "classe": "FC_P",
+        "lexema": ")",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "entao",
+        "lexema": "entao",
+        "tipo": "entao"
+    },
+    {
+        "classe": "se",
+        "lexema": "se",
+        "tipo": "se"
+    },
+    {
+        "classe": "AB_P",
+        "lexema": "(",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "id",
+        "lexema": "B",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "OPR",
+        "lexema": "<=",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "Num",
+        "lexema": "4",
+        "tipo": "inteiro"
+    },
+    {
+        "classe": "FC_P",
+        "lexema": ")",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "entao",
+        "lexema": "entao",
+        "tipo": "entao"
+    },
+    {
+        "classe": "escreva",
+        "lexema": "escreva",
+        "tipo": "escreva"
+    },
+    {
+        "classe": "Lit",
+        "lexema": "\"B esta entre 2 e 4\"",
+        "tipo": "literal"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "fimse",
+        "lexema": "fimse",
+        "tipo": "fimse"
+    },
+    {
+        "classe": "fimse",
+        "lexema": "fimse",
+        "tipo": "fimse"
+    },
+    {
+        "classe": "id",
+        "lexema": "B",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "ATR",
+        "lexema": "<-",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "id",
+        "lexema": "B",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "OPA",
+        "lexema": "+",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "Num",
+        "lexema": "1",
+        "tipo": "inteiro"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "id",
+        "lexema": "B",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "ATR",
+        "lexema": "<-",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "id",
+        "lexema": "B",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "OPA",
+        "lexema": "+",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "Num",
+        "lexema": "2",
+        "tipo": "inteiro"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "id",
+        "lexema": "B",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "ATR",
+        "lexema": "<-",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "id",
+        "lexema": "B",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "OPA",
+        "lexema": "+",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "Num",
+        "lexema": "3",
+        "tipo": "inteiro"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "id",
+        "lexema": "D",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "ATR",
+        "lexema": "<-",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "id",
+        "lexema": "B",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "id",
+        "lexema": "C",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "ATR",
+        "lexema": "<-",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "Num",
+        "lexema": "5.0",
+        "tipo": "real"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "escreva",
+        "lexema": "escreva",
+        "tipo": "escreva"
+    },
+    {
+        "classe": "Lit",
+        "lexema": "\"\\nB=\\n\"",
+        "tipo": "literal"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "escreva",
+        "lexema": "escreva",
+        "tipo": "escreva"
+    },
+    {
+        "classe": "id",
+        "lexema": "D",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "escreva",
+        "lexema": "escreva",
+        "tipo": "escreva"
+    },
+    {
+        "classe": "Lit",
+        "lexema": "\"\\n\"",
+        "tipo": "literal"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "escreva",
+        "lexema": "escreva",
+        "tipo": "escreva"
+    },
+    {
+        "classe": "id",
+        "lexema": "C",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "escreva",
+        "lexema": "escreva",
+        "tipo": "escreva"
+    },
+    {
+        "classe": "Lit",
+        "lexema": "\"\\n\"",
+        "tipo": "literal"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "escreva",
+        "lexema": "escreva",
+        "tipo": "escreva"
+    },
+    {
+        "classe": "id",
+        "lexema": "A",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "PT_V",
+        "lexema": ";",
+        "tipo": "NULO"
+    },
+    {
+        "classe": "fim",
+        "lexema": "fim",
+        "tipo": "fim"
+    },
+    {
+        "classe": "EOF",
+        "lexema": "EOF",
+        "tipo": null
+    }
+]

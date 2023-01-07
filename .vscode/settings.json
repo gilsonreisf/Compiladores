@@ -1,0 +1,3 @@
+{
+  "python.analysis.extraPaths": ["./Analisador Sintático", "./Analisador Léxico", "./lexico"]
+}

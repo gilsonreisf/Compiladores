@@ -48,8 +48,6 @@ class Scanner:
 
 
         while self.ponteiro <= len(self.codigoFonte):
-        
-
             try:
 
                 char = self.codigoFonte[self.ponteiro]

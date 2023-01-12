@@ -12,52 +12,55 @@ from tabela_de_simbolos import TabelaDeSimbolos
 class Parser2:
   def __init__(self):
     self.pilha = [0]
+    self.regras = Regras()
+    self.scanner = Scanner("codigo.txt")
+    self.tabelaEstados = TabelaDeEstados()
+    self.tabelaDeSimbolos = TabelaDeSimbolos()
 
 
-  def buscarProximoToken(self, scanner: Scanner, tabelaEstados: TabelaDeEstados, tabelaDeSimbolos: TabelaDeSimbolos, listaDeTokens): 
-    retornoScanner = scanner.SCANNER(tabelaEstados, tabelaDeSimbolos)
+  def buscarProximoToken(self, listaDeTokens): 
+    retornoScanner = self.scanner.SCANNER(self.tabelaEstados, self.tabelaDeSimbolos)
     listaDeTokens.append(retornoScanner)
 
 
   def PARSER(self):
     listaDeTokens = []
     mainAction()
-    regras = Regras()
-    scanner = Scanner("codigo.txt")
-    tabelaEstados = TabelaDeEstados()
-    tabelaDeSimbolos = TabelaDeSimbolos()
-    self.buscarProximoToken(scanner, tabelaEstados, tabelaDeSimbolos, listaDeTokens)
+
+    self.buscarProximoToken(listaDeTokens)
     index = 0
     token = listaDeTokens[index]
 
     a = token.classe.lower() # Token
     
     while True:
-      print('-'*50)
-      print('Token: ', token)
-      print('Pilha: ', self.pilha)
+      # print('-'*50)
+      # print('LINHA: ', self.scanner.linha)
+      # print('COLUNA: ', self.scanner.coluna)
+      # print('Token: ', token)
+      # print('Pilha: ', self.pilha)
       s = self.pilha[-1]
       acao = action(s,a)
       t = acao[1:]
       if('s' in acao):
-        print('SHIFT: ', acao)
+        # print('SHIFT: ', acao)
         self.pilha.append(int(t))
-        self.buscarProximoToken(scanner, tabelaEstados, tabelaDeSimbolos, listaDeTokens)
+        self.buscarProximoToken(listaDeTokens)
         index += 1
         token = listaDeTokens[index]
         a = token.classe.lower()
 
       elif('R' in acao):
-        print('REDUCE: ', acao)
+        # print('REDUCE: ', acao)
 
-        A, B, regra = regras.retornaElementos(t)
+        A, B, regra = self.regras.retornaElementos(t)
 
 
         for element in B:
           desempilhar(self.pilha)
 
         t = self.pilha[-1]
-        print('Topo da pilha: ', t)
+        # print('Topo da pilha: ', t)
 
         self.pilha.append(int(goto(int(t),A)))
         print('Produção: ', regra)
@@ -67,7 +70,13 @@ class Parser2:
         break
 
       else:
-        # index = panicMode(s, index, listaDeTokens)
-        phraseRecovery(s, index, listaDeTokens)
+        sucessoPhraseRecovery = phraseRecovery(s, index, listaDeTokens, self.buscarProximoToken, self.scanner.linha, self.scanner.coluna)
+
+        if(sucessoPhraseRecovery == False):
+          index = panicMode(s, self.buscarProximoToken, listaDeTokens, index, self.scanner.linha, self.scanner.coluna)
+          
         token = listaDeTokens[index]
         a = token.classe.lower()
+
+        if (a == 'eof'):
+          break

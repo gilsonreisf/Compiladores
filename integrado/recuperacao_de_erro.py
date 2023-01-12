@@ -1,36 +1,41 @@
 from action import *
 from Token import Token
 
+
 class Token:
     def __init__(self, classe: str, lexema: str, tipo: str):
         self.classe = classe
         self.lexema = lexema
         self.tipo = tipo
 
-def panicMode(s, index_token, tokens):
-  print('Panic Mode')
-  while index_token < (len(tokens) - 1):
-      token = tokens[index_token]
+def panicMode(s, funcaoBuscarProximoToken, listaDeTokens, index_token, linha, coluna):
+  print(f'*************** Panic Mode: linha {linha}, coluna: {coluna}')
+  while True:
+      token = listaDeTokens[index_token]
       a = token.classe.lower()
       acao = action(s, a)
-      print('TOKEN ERRO: ', a)
 
       if(acao[0] != 'e'):
-        print('Sucesso no panic mode: ', acao)
-        # t = acao[1:]
-        # pilha.append(int(t))
+        print('******* Sucesso no panic mode: ', acao)
+        return index_token
 
+      if(a == 'eof'):
+        print('Fim de arquivo')
         return index_token
       
-      index_token += 1
       
-def phraseRecovery(s, index_token, tokens):
-  print('Phrase Recovery Mode')
+      funcaoBuscarProximoToken(listaDeTokens)
+      index_token += 1
+
+
+def phraseRecovery(s, index_token, listaDeTokens: list, funcaoBuscarProximoToken, linha, coluna):
+  print(f'############### Phrase Recovery Mode: linha {linha}, coluna: {coluna}')
   # phraseRecoveryList = ['pt_v', 'vir', 'ab_p', 'fc_p'];
   phraseRecoveryList = ['pt_v', 'vir']
   
-  tokenAnterior = tokens[index_token - 1]
-  tokenAtual = tokens[index_token]
+  tokenAnterior = listaDeTokens[index_token - 1]
+  tokenAtual = listaDeTokens[index_token]
+
 
   a = tokenAtual.classe.lower()
   acaoAtual = action(s, a)
@@ -38,15 +43,21 @@ def phraseRecovery(s, index_token, tokens):
   # Removendo tokens duplicados 
   if(compararTokens(tokenAnterior, tokenAtual)):
     if(a in phraseRecoveryList):
-      tokens.pop(index_token)
+      listaDeTokens.pop(index_token)
+      funcaoBuscarProximoToken(listaDeTokens)
+      print('####### Sucesso no phrase recovery: ', acaoAtual)
+      return True
 
   # Inserindo tokens faltantes 
   elif(acaoAtual[0] == 'e'):
     pt_v = action(s, 'pt_v')
     if(pt_v[0] != 'e'):
-      # tokens.insert(index_token, {'classe': 'PT_V', 'lexema': ';', 'tipo': 'NULO'})
       newToken = Token('PT_V', ';', 'NULO')
-      tokens.insert(index_token, newToken)
+      listaDeTokens.insert(index_token, newToken)
+      print('####### Sucesso no phrase recovery: ', pt_v)
+      return True
+  
+  return False
 
 
 

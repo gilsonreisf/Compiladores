@@ -1,4 +1,5 @@
 inicio varinicio
-literal A
+literal A;
 varfim;
+A<-A++1;
 fim 

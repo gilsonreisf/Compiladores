@@ -110,12 +110,12 @@ class Scanner:
                     literalIncompleto = [7, 8]
                     comentarioIncompleto = [12, 13]
                     estadoAtual = tabelaEstados.estado_atual
-                    self.linha = self.linha + 1
                     
                     if ((estadoAtual in literalIncompleto)) or ((estadoAtual in comentarioIncompleto)):
                         self.lancaErro(tabelaEstados.estado_atual)
                         return tabelaDeSimbolos.construirToken(tabelaEstados, lexema, True) 
 
+                    self.linha = self.linha + 1
                     self.coluna = 1
                 
                 lexema = self.tratarEspacosVazios(lexema, char, tabelaEstados.estado_atual)

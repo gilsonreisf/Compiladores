@@ -44,7 +44,7 @@ class Parser2:
       if('s' in acao):
         self.pilha.append(int(t))
         val = self.buscarProximoToken(listaDeTokens)
-        index += val
+        index += 1
         token = listaDeTokens[index]
         a = token.classe.lower()
         
@@ -66,7 +66,7 @@ class Parser2:
         break
       
       else:
-        sucessoPhraseRecovery = phraseRecovery(s, index, listaDeTokens, self.buscarProximoToken, self.scanner.linha, self.scanner.coluna)
+        sucessoPhraseRecovery = phraseRecovery(s, index, listaDeTokens, self.buscarProximoToken, self.scanner.linha2, self.scanner.coluna2)
         if(sucessoPhraseRecovery == False):
           index = panicMode(s, self.buscarProximoToken, listaDeTokens, index, self.scanner.linha, self.scanner.coluna)
           

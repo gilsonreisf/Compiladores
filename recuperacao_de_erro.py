@@ -32,7 +32,7 @@ def panicMode(s, funcaoBuscarProximoToken, listaDeTokens, index_token, linha, co
 
 
 def phraseRecovery(s, index_token, listaDeTokens: list, funcaoBuscarProximoToken, linha, coluna):
-  phraseRecoveryList = ['pt_v', 'vir']
+  phraseRecoveryList = ['pt_v', 'vir', 'opa']
   
   tokenAnterior = listaDeTokens[index_token - 1]
   tokenAtual = listaDeTokens[index_token]
@@ -47,7 +47,7 @@ def phraseRecovery(s, index_token, listaDeTokens: list, funcaoBuscarProximoToken
     if(a in phraseRecoveryList):
       listaDeTokens.pop(index_token)
       funcaoBuscarProximoToken(listaDeTokens)
-      print(f'ERRO SINTÁTICO - Caractere"{tokenAtual.lexema}" duplicado. Linha {linha}, coluna: {coluna -1}')
+      print(f'ERRO SINTÁTICO - Caractere "{tokenAtual.lexema}" duplicado. Linha {linha + 1}, coluna: {coluna -1}')
       return True
 
   elif(acaoAtual[0] == 'e'):

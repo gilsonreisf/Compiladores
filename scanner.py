@@ -14,7 +14,9 @@ class Scanner:
         self.codigoFonte = lerArquivo(nome_arquivo)
         self.ponteiro = 0
         self.linha = 1
-        self.coluna = 0        
+        self.coluna = 0
+        self.linha2 = 1
+        self.coluna2 = 0                
 
     def tratarEspacosVazios(self, lexema, char, estadoAtual):
         literalIncompleto = [7, 8]
@@ -25,9 +27,6 @@ class Scanner:
             lexema = lexema + char
             return lexema
         else:
-            #print(f"Espaco vazio em {self.linha}, {self.coluna}")
-            if char == ' ':
-                self.coluna = self.coluna + 1
             return lexema
             
 
@@ -112,6 +111,8 @@ class Scanner:
                     literalIncompleto = [7, 8]
                     comentarioIncompleto = [12, 13]
                     estadoAtual = tabelaEstados.estado_atual
+                    self.linha2 = self.linha
+                    self.coluna2 = self.coluna
                     
                     if ((estadoAtual in literalIncompleto)) or ((estadoAtual in comentarioIncompleto)):
                         self.lancaErro(tabelaEstados.estado_atual)

@@ -14,7 +14,7 @@ class Scanner:
         self.codigoFonte = lerArquivo(nome_arquivo)
         self.ponteiro = 0
         self.linha = 1
-        self.coluna = 1        
+        self.coluna = 0        
 
     def tratarEspacosVazios(self, lexema, char, estadoAtual):
         literalIncompleto = [7, 8]
@@ -25,7 +25,11 @@ class Scanner:
             lexema = lexema + char
             return lexema
         else:
+            #print(f"Espaco vazio em {self.linha}, {self.coluna}")
+            if char == ' ':
+                self.coluna = self.coluna + 1
             return lexema
+            
 
     def tratarFinalDeLinha(self, lexema, tabelaEstados: TabelaDeEstados, tabelaDeSimbolos: TabelaDeSimbolos):
         literalIncompleto = [7, 8]
@@ -114,10 +118,9 @@ class Scanner:
                         return tabelaDeSimbolos.construirToken(tabelaEstados, lexema, True) 
 
                     self.linha = self.linha + 1
-                    self.coluna = 1
+                    self.coluna =  1
                 
                 lexema = self.tratarEspacosVazios(lexema, char, tabelaEstados.estado_atual)
-
         
         return Token('EOF', 'EOF', None)
 

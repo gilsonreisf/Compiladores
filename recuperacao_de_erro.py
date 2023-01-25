@@ -24,12 +24,16 @@ def panicMode(s, funcaoBuscarProximoToken, listaDeTokens, index_token, linha, co
         return index_token
       
       
-      funcaoBuscarProximoToken(listaDeTokens)
-      index_token += 1
+      val = funcaoBuscarProximoToken(listaDeTokens)
+      if val == 1:
+        index_token += 1
+      else:
+        index_token = index_token
+
 
 
 def phraseRecovery(s, index_token, listaDeTokens: list, funcaoBuscarProximoToken, linha, coluna):
-  print(f'############### Phrase Recovery Mode: linha {linha}, coluna: {coluna}')
+  #print(f'############### Phrase Recovery Mode:')
   # phraseRecoveryList = ['pt_v', 'vir', 'ab_p', 'fc_p'];
   phraseRecoveryList = ['pt_v', 'vir']
   
@@ -38,14 +42,16 @@ def phraseRecovery(s, index_token, listaDeTokens: list, funcaoBuscarProximoToken
 
 
   a = tokenAtual.classe.lower()
-  acaoAtual = action(s, a)
 
+    
+    
+  acaoAtual = action(s, a)
   # Removendo tokens duplicados 
   if(compararTokens(tokenAnterior, tokenAtual)):
     if(a in phraseRecoveryList):
       listaDeTokens.pop(index_token)
       funcaoBuscarProximoToken(listaDeTokens)
-      print('####### Sucesso no phrase recovery: ', acaoAtual)
+      #print('####### Sucesso no phrase recovery: ', acaoAtual)
       return True
 
   # Inserindo tokens faltantes 
@@ -53,8 +59,11 @@ def phraseRecovery(s, index_token, listaDeTokens: list, funcaoBuscarProximoToken
     pt_v = action(s, 'pt_v')
     if(pt_v[0] != 'e'):
       newToken = Token('PT_V', ';', 'NULO')
+      
+      print(f'Erro sintático -- Ponto e Vírgula Faltante em  linha {linha}, coluna: {coluna}')
+      
       listaDeTokens.insert(index_token, newToken)
-      print('####### Sucesso no phrase recovery: ', pt_v)
+      #print('############### Sucesso no phrase recovery: ', pt_v)
       return True
   
   return False

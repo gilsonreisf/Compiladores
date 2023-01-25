@@ -22,8 +22,10 @@ class Parser2:
     retornoScanner = self.scanner.SCANNER(self.tabelaEstados, self.tabelaDeSimbolos)
     if retornoScanner.classe != 'ERROR':
       listaDeTokens.append(retornoScanner)
+      return 1
     else:
       retornoScanner = self.scanner.SCANNER(self.tabelaEstados, self.tabelaDeSimbolos)
+      return 0
     #print('='*40)
     #print(retornoScanner.classe)
     #print(listaDeTokens)
@@ -48,8 +50,8 @@ class Parser2:
       if('s' in acao):
         # print('SHIFT: ', acao)
         self.pilha.append(int(t))
-        self.buscarProximoToken(listaDeTokens)
-        index += 1
+        val = self.buscarProximoToken(listaDeTokens)
+        index += val
         token = listaDeTokens[index]
         a = token.classe.lower()
         
@@ -74,7 +76,6 @@ class Parser2:
       
       else:
         sucessoPhraseRecovery = phraseRecovery(s, index, listaDeTokens, self.buscarProximoToken, self.scanner.linha, self.scanner.coluna)
-
         if(sucessoPhraseRecovery == False):
           index = panicMode(s, self.buscarProximoToken, listaDeTokens, index, self.scanner.linha, self.scanner.coluna)
           

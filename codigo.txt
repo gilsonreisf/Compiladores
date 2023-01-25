@@ -1,5 +1,4 @@
 inicio varinicio
 literal A
-varfim
-A<-A++1
-fim 
+varfim;
+fim

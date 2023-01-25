@@ -9,14 +9,13 @@ class Token:
         self.tipo = tipo
 
 def panicMode(s, funcaoBuscarProximoToken, listaDeTokens, index_token, linha, coluna):
-  print(f'*************** Panic Mode: linha {linha}, coluna: {coluna}')
+  print(f'ERRO SINTÁTICO - sintaxe incorreta. Linha {linha}, coluna: {coluna -1}')
   while True:
       token = listaDeTokens[index_token]
       a = token.classe.lower()
       acao = action(s, a)
 
       if(acao[0] != 'e'):
-        print('******* Sucesso no panic mode: ', acao)
         return index_token
 
       if(a == 'eof'):
@@ -33,8 +32,6 @@ def panicMode(s, funcaoBuscarProximoToken, listaDeTokens, index_token, linha, co
 
 
 def phraseRecovery(s, index_token, listaDeTokens: list, funcaoBuscarProximoToken, linha, coluna):
-  #print(f'############### Phrase Recovery Mode:')
-  # phraseRecoveryList = ['pt_v', 'vir', 'ab_p', 'fc_p'];
   phraseRecoveryList = ['pt_v', 'vir']
   
   tokenAnterior = listaDeTokens[index_token - 1]
@@ -46,24 +43,19 @@ def phraseRecovery(s, index_token, listaDeTokens: list, funcaoBuscarProximoToken
     
     
   acaoAtual = action(s, a)
-  # Removendo tokens duplicados 
   if(compararTokens(tokenAnterior, tokenAtual)):
     if(a in phraseRecoveryList):
       listaDeTokens.pop(index_token)
       funcaoBuscarProximoToken(listaDeTokens)
-      #print('####### Sucesso no phrase recovery: ', acaoAtual)
+      print(f'ERRO SINTÁTICO - Caractere"{tokenAtual.lexema}" duplicado. Linha {linha}, coluna: {coluna -1}')
       return True
 
-  # Inserindo tokens faltantes 
   elif(acaoAtual[0] == 'e'):
     pt_v = action(s, 'pt_v')
     if(pt_v[0] != 'e'):
       newToken = Token('PT_V', ';', 'NULO')
-      
-      print(f'Erro sintático -- Ponto e Vírgula Faltante em  linha {linha}, coluna: {coluna}')
-      
       listaDeTokens.insert(index_token, newToken)
-      #print('############### Sucesso no phrase recovery: ', pt_v)
+      print(f'ERRO SINTÁTICO - Ponto e Vírgula Faltante. Linha {linha}, coluna: {coluna -1}')
       return True
   
   return False
@@ -75,7 +67,3 @@ def phraseRecovery(s, index_token, listaDeTokens: list, funcaoBuscarProximoToken
 def compararTokens(token1, token2):
   return (token1.classe, token1.lexema, token1.tipo) == (token2.classe, token2.lexema, token2.tipo)
       
-
-
-def printError():
-  print('Print error: ')

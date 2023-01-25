@@ -24,11 +24,9 @@ class Parser2:
       listaDeTokens.append(retornoScanner)
       return 1
     else:
-      retornoScanner = self.scanner.SCANNER(self.tabelaEstados, self.tabelaDeSimbolos)
+      retornoScanner = self.buscarProximoToken(listaDeTokens)
       return 0
-    #print('='*40)
-    #print(retornoScanner.classe)
-    #print(listaDeTokens)
+    
   def PARSER(self):
     listaDeTokens = []
     mainAction()
@@ -37,18 +35,13 @@ class Parser2:
     index = 0
     token = listaDeTokens[index]
 
-    a = token.classe.lower() # Token
+    a = token.classe.lower()
     
     while True:
-      # print('LINHA: ', self.scanner.linha)
-      # print('COLUNA: ', self.scanner.coluna)
-      # print('Token: ', token)
-      # print('Pilha: ', self.pilha)
       s = self.pilha[-1]
       acao = action(s,a)
       t = acao[1:]
       if('s' in acao):
-        # print('SHIFT: ', acao)
         self.pilha.append(int(t))
         val = self.buscarProximoToken(listaDeTokens)
         index += val
@@ -56,7 +49,6 @@ class Parser2:
         a = token.classe.lower()
         
       elif('R' in acao):
-        # print('REDUCE: ', acao)
 
         A, B, regra = self.regras.retornaElementos(t)
 
@@ -65,7 +57,6 @@ class Parser2:
           desempilhar(self.pilha)
 
         t = self.pilha[-1]
-        # print('Topo da pilha: ', t)
 
         self.pilha.append(int(goto(int(t),A)))
         print('Produção: ', regra)

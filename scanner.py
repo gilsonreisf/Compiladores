@@ -122,7 +122,6 @@ class Scanner:
         return Token('EOF', 'EOF', None)
 
 
-
     def lancaErro(self, estado, c=''):
         if estado == 2 or estado == 4 or estado == 5:
             print(f'ERRO LÉXICO - Número incompleto. Linha {self.linha}, coluna {self.coluna}')

@@ -20,9 +20,13 @@ class Parser2:
 
   def buscarProximoToken(self, listaDeTokens): 
     retornoScanner = self.scanner.SCANNER(self.tabelaEstados, self.tabelaDeSimbolos)
-    listaDeTokens.append(retornoScanner)
-
-
+    if retornoScanner.classe != 'ERROR':
+      listaDeTokens.append(retornoScanner)
+    else:
+      retornoScanner = self.scanner.SCANNER(self.tabelaEstados, self.tabelaDeSimbolos)
+    #print('='*40)
+    #print(retornoScanner.classe)
+    #print(listaDeTokens)
   def PARSER(self):
     listaDeTokens = []
     mainAction()
@@ -34,7 +38,6 @@ class Parser2:
     a = token.classe.lower() # Token
     
     while True:
-      # print('-'*50)
       # print('LINHA: ', self.scanner.linha)
       # print('COLUNA: ', self.scanner.coluna)
       # print('Token: ', token)
@@ -49,7 +52,7 @@ class Parser2:
         index += 1
         token = listaDeTokens[index]
         a = token.classe.lower()
-
+        
       elif('R' in acao):
         # print('REDUCE: ', acao)
 
@@ -68,7 +71,7 @@ class Parser2:
       elif('a' in acao):
         print('ACCEPT')
         break
-
+      
       else:
         sucessoPhraseRecovery = phraseRecovery(s, index, listaDeTokens, self.buscarProximoToken, self.scanner.linha, self.scanner.coluna)
 

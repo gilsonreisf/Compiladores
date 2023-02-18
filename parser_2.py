@@ -60,6 +60,11 @@ class Parser2:
 
         self.pilha.append(int(goto(int(t),A)))
         print('Produção: ', regra)
+
+        #print('=='*20)
+        #print(f'A: {A} \n B: {B} \n Regra: {regra}')
+        #print(f't: {t}')
+        #print('=='*20)
         
       elif('a' in acao):
         print('ACCEPT')

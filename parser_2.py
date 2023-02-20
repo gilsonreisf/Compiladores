@@ -6,7 +6,7 @@ from regras import Regras
 from scanner import Scanner
 from tabela_de_estados import TabelaDeEstados
 from tabela_de_simbolos import TabelaDeSimbolos
-
+from semantico import *
 
 
 class Parser2:
@@ -16,6 +16,7 @@ class Parser2:
     self.scanner = Scanner("codigo.txt")
     self.tabelaEstados = TabelaDeEstados()
     self.tabelaDeSimbolos = TabelaDeSimbolos()
+    self.programa_objeto = ''
 
 
   def buscarProximoToken(self, listaDeTokens): 
@@ -47,11 +48,19 @@ class Parser2:
         index += 1
         token = listaDeTokens[index]
         a = token.classe.lower()
+        #tipo = token.tipo
+        #lexema = token.lexema
         
+        #print(f' Classe: {a} \n Tipo: {tipo} \n Lexema {lexema}')
       elif('R' in acao):
 
         A, B, regra = self.regras.retornaElementos(t)
 
+        print("=_"*20)
+        print(f"Redução: -----> {t}")
+        print("=_"*20)
+
+        self.programa_objeto += str(semantico(t, token, A, B, self.tabelaDeSimbolos))
 
         for element in B:
           desempilhar(self.pilha)
@@ -59,15 +68,25 @@ class Parser2:
         t = self.pilha[-1]
 
         self.pilha.append(int(goto(int(t),A)))
-        print('Produção: ', regra)
 
+        print('Produção: ', regra)
+        #self.programa_objeto += semantico(t, token, A, B)
+        
+        
+        
+        #print(self.tabelaDeSimbolos.imprimirTabela())
         #print('=='*20)
         #print(f'A: {A} \n B: {B} \n Regra: {regra}')
+        #print(f'Token: {token}')
         #print(f't: {t}')
         #print('=='*20)
         
       elif('a' in acao):
         print('ACCEPT')
+        #print(self.programa_objeto)
+        print(self.tabelaDeSimbolos.imprimirTabela())
+        #inicia_programa_objeto()
+        #escreve_string_no_objeto
         break
       
       else:

@@ -55,21 +55,27 @@ class Parser2:
       elif('R' in acao):
 
         A, B, regra = self.regras.retornaElementos(t)
-
-        print("=_"*20)
-        print(f"Redução: -----> {t}")
-        print("=_"*20)
-
+        
+        for element in B:
+            desempilhar(self.pilha)
+        #print("=_"*20)
+        #print(f"Redução: -----> {t}")
+        #print("=_"*20)
+        t = self.pilha[-1]
+        print(self.pilha[-1])
+        self.pilha.append(int(goto(int(t),A)))
+        
+        print('Produção: ', regra)
+        
         self.programa_objeto += str(semantico(t, token, A, B, self.tabelaDeSimbolos))
 
-        for element in B:
-          desempilhar(self.pilha)
+        
 
-        t = self.pilha[-1]
+        
 
-        self.pilha.append(int(goto(int(t),A)))
+        
 
-        print('Produção: ', regra)
+        
         #self.programa_objeto += semantico(t, token, A, B)
         
         
@@ -83,8 +89,8 @@ class Parser2:
         
       elif('a' in acao):
         print('ACCEPT')
-        #print(self.programa_objeto)
-        print(self.tabelaDeSimbolos.imprimirTabela())
+        print(self.programa_objeto)
+        #print(self.tabelaDeSimbolos.imprimirTabela())
         #inicia_programa_objeto()
         #escreve_string_no_objeto
         break

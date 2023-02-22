@@ -15,6 +15,7 @@ def insere_no_objeto(string, tipo):
 #Função do analisador semântico, recebe a regra e a classe do token
 def semantico(regra, token_atual, A, B, tabelaDeSimbolos):
     token_aux = Token(classe='',lexema='',tipo='')
+    flag_amarracao = False
     
     if regra in [1,2,3,4,12,18,24,28,29,30]:
         #Numero das regras que não fazem nada
@@ -28,6 +29,7 @@ def semantico(regra, token_atual, A, B, tabelaDeSimbolos):
         #Amarração de atributos, organizar a passagem de valores do atributo TIPO.tipo,
         #para L.TIPO;
         token_atual.tipo = token_aux.tipo
+        flag_amarracao = True
     elif regra == 7:
         print("=_"*20)
         print(f"Token atual: {token_atual}")
@@ -37,7 +39,7 @@ def semantico(regra, token_atual, A, B, tabelaDeSimbolos):
         classe, lexema, tipo = token_atual.classe, token_atual.lexema, token_atual.tipo
         tabelaDeSimbolos.atualizarToken(Token(classe=classe, lexema=lexema, tipo=tipo))
         
-        #L1 tipo = L2 tipo
+        #L1 tipo = L2 tipol 
         #token_atual.tipo = token_aux.tipo
 
     elif regra == 8:
@@ -88,38 +90,50 @@ def semantico(regra, token_atual, A, B, tabelaDeSimbolos):
     elif regra == 14:
         #Gerar código para o comando escreva no arquivo objeto.
         #Imprimir ( printf(“ARG.lexema”); )
-        pass
+        return f'printf("{token_atual.lexema}")'
     elif regra == 15:
         #ARG.atributos <- literal.atributos (Copiar todos os atributos de literal para os
         #atributos de ARG).
-        pass
+        token_atual = token_aux
+        
     elif regra == 16:
         #ARG.atributos <- num.atributos (Copiar todos os atributos de literal para os atributos
         #de ARG).
-        pass
+        token_atual = token_aux
     elif regra == 17:
         #Verificar se o identificador foi declarado (execução da regra semântica de número
         #6).
         #Se sim, então:
+        if flag_amarracao:
+            token_atual = token_aux
         #ARG.atributos <- id.atributos (copia todos os atributos de id para os de ARG).
         #Caso Contrário:
+        else:
+            print('Variável não declarada')
         # Emitir na tela “Erro: Variável não declarada” , linha e coluna onde ocorreu o
         #erro no fonte.
         pass
     elif regra == 19:
         #Verificar se id foi declarado (execução da regra semântica de número 6). Se sim,
         #então:
+        
+        if flag_amarracao:
+            if token_atual.tipo == token_aux.tipo:
         #| Realizar verificação do tipo entre os operandos id e LD (ou seja, |
         #se ambos são do mesmo tipo).
         #| Se sim, então:
         #| | Imprimir (id.lexema rcb.tipo LD.lexema) no arquivo objeto.
+                return f'{token_atual.lexema} {token_atual.tipo} {token_aux.lexema}'
         #| Caso contrário emitir: ”Erro: Tipos diferentes para atribuição”,
+            else:
+                print('Erro: Variável não declarada')
         #|__________linha e coluna onde ocorreu o erro no fonte.
         #Caso contrário emitir “Erro: Variável não declarada” ”, linha e coluna onde ocorreu
         #o erro no fonte.
         pass
     elif regra == 20:
         #Verificar se tipo dos operandos de de LD são equivalentes e diferentes de literal.
+        if (B[0] == B[-1]) and (B[-1] != 'literal'): 
         #Se sim, então:
         #Gerar uma variável numérica temporária Tx, em que x é um número gerado
         #sequencialmente.
@@ -127,14 +141,18 @@ def semantico(regra, token_atual, A, B, tabelaDeSimbolos):
         #Imprimir (Tx = OPRD.lexema opa.tipo OPRD.lexema) no arquivo objeto.
         #Caso contrário emitir “Erro: Operandos com tipos incompatíveis” ”, linha e coluna
         #onde ocorreu o erro no fonte.
-        pass
+            pass
     elif regra == 21:
         #LD.atributos <- OPRD.atributos (Copiar todos os atributos de OPRD para os atributos
         #de LD).
-        pass
+        token_atual = token_aux
     elif regra == 22:
         #Verificar se o identificador está declarado.
         #Se sim, então:
+        if flag_amarracao:
+            token_atual = token_aux
+        else:
+            print('Erro: Variável não declarada')
         #OPRD.atributos <- id.atributos
         #Caso contrário emitir “Erro: Variável não declarada” ”, linha e coluna onde ocorreu
         #o erro no fonte.
@@ -142,13 +160,14 @@ def semantico(regra, token_atual, A, B, tabelaDeSimbolos):
     elif regra == 23:
         #OPRD.atributos <- num.atributos (Copiar todos os atributos de num para os atributos
         #de OPRD).
-        pass
+        token_atual = token_aux
     elif regra == 25:
         #Imprimir ( } ) no arquivo objeto.
-        pass
+        return '} \n'
+        
     elif regra == 26:
         #Imprimir ( if (EXP_R.lexema) { ) no arquivo objeto.
-        pass
+        return '\n {'
     elif regra == 27:
         #Verificar se os tipos de dados de OPRD são iguais ou equivalentes para a
         #realização de comparação relacional.

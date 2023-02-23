@@ -8,6 +8,6 @@ def inicia_arquivo_objeto(programa_objeto, temporarias):
     objeto_final += temporarias + '\n'
     objeto_final += '/*------------------------------*/ \n'
     objeto_final += programa_objeto
-    objeto_final += '\n}'
+    #objeto_final += '\n}'
     with open('PROGRAMA.C', 'w') as f:
         f.write(objeto_final)

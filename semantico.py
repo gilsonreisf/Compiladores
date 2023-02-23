@@ -8,6 +8,7 @@ class Semantico:
         self.variaveis_temporarias = variaveis_temporarias
         self.contador_temporarias = contador_temporarias
         self.token_aux = Token(classe='',lexema='',tipo='')
+        self.variaveis_para_receber_tipo = []
     
 
     #Função do analisador semântico, recebe a regra e a classe do token
@@ -31,18 +32,36 @@ class Semantico:
             #Amarração de atributos, organizar a passagem de valores do atributo TIPO.tipo,
             #para L.TIPO;
             #token_atual.tipo = self.pilha_semantica[-1].tipo
-            self.pilha_semantica[-3].tipo = self.pilha_semantica[-2].tipo
+                                           
+            #self.pilha_semantica[-3].tipo = self.pilha_semantica[-2].tipo
+                #L                                  #TIPO
+            self.pilha_semantica[-2].tipo =  self.pilha_semantica[-3].tipo
+            
+            for variaveis in self.variaveis_para_receber_tipo:
+                variaveis.tipo = self.pilha_semantica[-3].tipo
+                self.programa_objeto += f'{variaveis.tipo} {variaveis.lexema}'
+            self.variaveis_para_receber_tipo.clear()
             
         elif regra == 7:
             #Amarração de atributos, organizar a passagem de valores do atributo.
-            token_atual = self.pilha_semantica[-1]
+            #token_atual.tipo = self.pilha_semantica[-1].tipo
+                #ID                              #L1
+            self.pilha_semantica[-3].tipo = token_atual.tipo
 
+            tabelaDeSimbolos.atualizaTokenParaSemantico(Token(classe=self.pilha_semantica[-3].classe , lexema=self.pilha_semantica[-3].lexema, tipo=self.pilha_semantica[-3].tipo))
+            
+                #L1                     #ID
+            token_atual.tipo = self.pilha_semantica[-3]
+            self.variaveis_para_receber_tipo.append(self.pilha_semantica[-3])
         elif regra == 8:
             #Ajustar o preenchimento de id.tipo na tabela de símbolos:
             #Impressão do id no .obj
             #atualiza o tipo na tabela de simbolos
+            token_atual = self.pilha_semantica[-1]
+            
             classe, lexema, tipo = token_atual.classe, token_atual.lexema, token_atual.tipo
             tabelaDeSimbolos.atualizaTokenParaSemantico(Token(classe=classe, lexema=lexema, tipo=tipo))
+            
             self.programa_objeto += " " + self.pilha_semantica[-1].lexema + '; \n'
 
         elif regra == 9:
@@ -66,40 +85,26 @@ class Semantico:
 
             self.programa_objeto += 'literal'
         elif regra == 13:
-            #print(f'Pilha inteira: {self.pilha_semantica}')
-            #print(f'Pilha -2: {self.pilha_semantica[-2]}')
 
-            #Verificar se o campo tipo do identificador está preenchido indicando a declaração
-            #do identificador (execução da regra semântica de número 6).
-            #Se sim, então:
-            #Se id.tipo = literal Imprimir ( scanf(“%s”, id.lexema); )
-            #Se id.tipo = inteiro Imprimir ( scanf(“%d”, &id.lexema); )
-            #Se id.tipo = real Imprimir ( scanf(“%lf”, &id.lexema); )
-            #Caso Contrário:
-            #Emitir na tela “Erro: Variável não declarada”, linha e coluna onde ocorreu o
-            #erro no fonte.
-            #print(f'token aux: {self.token_aux}')
-            #print(f'A: {A} -> B: {B}')
-            #print(f'Pilha inteira: {self.pilha_semantica}')   
-            
-            if self.pilha_semantica[-2].tipo == 'literal':
-                
-                self.programa_objeto += f'scanf("%s", {self.pilha_semantica[-2].lexema})\n'
-                
-            elif self.pilha_semantica[-2].tipo == 'inteiro':
-                
-                self.programa_objeto += f'scanf("%d", &{self.pilha_semantica[-2].lexema})\n'
-                
-            elif self.pilha_semantica[-2].tipo == 'real':
-                
-                self.programa_objeto += f'scanf ("%lf", &{self.pilha_semantica[-2].lexema})\n'
-            else:
-                print("Variável não declarada")
+            if self.pilha_semantica[-2].tipo is not None and self.pilha_semantica[-2].tipo != '':  
+                if self.pilha_semantica[-2].tipo == 'literal':
+                    
+                    self.programa_objeto += f'scanf("%s", {self.pilha_semantica[-2].lexema})\n'
+                    
+                elif self.pilha_semantica[-2].tipo == 'inteiro':
+                    
+                    self.programa_objeto += f'scanf("%d", &{self.pilha_semantica[-2].lexema})\n'
+                    
+                elif self.pilha_semantica[-2].tipo == 'real':
+                    
+                    self.programa_objeto += f'scanf("%lf", &{self.pilha_semantica[-2].lexema})\n'
+                else:
+                    print("Variável não declarada")
 
         elif regra == 14:
             #Gerar código para o comando escreva no arquivo objeto.
             #Imprimir ( #printf(“ARG.lexema”); )
-            self.programa_objeto += f'printf("{self.pilha_semantica[-2].lexema}") \n'
+            self.programa_objeto += f'\n printf({self.pilha_semantica[-2].lexema}) \n'
         elif regra == 15:
             #ARG.atributos <- literal.atributos (Copiar todos os atributos de literal para os
             #atributos de ARG).
@@ -122,10 +127,11 @@ class Semantico:
                 print('Erro: Variável não declarada')
                 
         elif regra == 19:
-            if (type(self.pilha_semantica[-4]) != None):
+            if (type(self.pilha_semantica[-4]) != None and self.pilha_semantica[-4].tipo != ''):
                 if (type(self.pilha_semantica[-4])) == (type(self.pilha_semantica[-2])):
                                                                                                         # ou tipo?
-                    self.programa_objeto += f'{self.pilha_semantica[-4].lexema} {self.pilha_semantica[-3].lexema} {self.pilha_semantica[-2].lexema} {self.pilha_semantica[-1].lexema}'
+                    #self.programa_objeto += f'{self.pilha_semantica[-4].lexema} {self.pilha_semantica[-3].lexema} {self.pilha_semantica[-2].lexema} {self.pilha_semantica[-1].lexema}'
+                    self.programa_objeto += f'\n{self.pilha_semantica[-4].lexema} = {self.pilha_semantica[-2].lexema}{self.pilha_semantica[-1].lexema}'
                 else:
                     print("Erro: Tipos diferentes para atribuição")
             else:
@@ -135,25 +141,28 @@ class Semantico:
             opr1 = self.pilha_semantica[-1] #Opr1
             opr2 = self.pilha_semantica[-3] #Opr2
             opa = self.pilha_semantica[-2] #OPA
+            #print(f'Pilha: {self.pilha_semantica}')
             print(f'OPR1: {opr1}')
             print(f'OPR2: {opr2}')
             print(f'Token atual: {token_atual}')
             if (opr1.tipo == token_atual.tipo) and (opr1.tipo == opr2.tipo) and opr1.tipo != 'literal':
-                if tipo1 == 'literal':
-                    Tx = 'char' + " T" + str(self.contador_temporarias) + ";"
-                    self.variaveis_temporarias += Tx
-                    token_atual.lexema = 'literal'
+                #if tipo1 == 'literal':
+                #    Tx = 'char' + " T" + str(self.contador_temporarias) + ";"
+                #    self.variaveis_temporarias += Tx
+                #    token_atual.lexema = "T" + str(self.contador_temporarias)
                 if tipo1 == 'inteiro':
                     Tx = 'int' + " T" + str(self.contador_temporarias) + ";"
-                    self.variaveis_temporarias += Tx
-                    token_atual.lexema = 'inteiro'
+                    self.variaveis_temporarias += Tx + '\n'
+                    token_atual.lexema = "T" + str(self.contador_temporarias)
+                    
                 if tipo1 == 'real':
                     Tx = 'double' + " T" + str(self.contador_temporarias) + ";"
-                    self.variaveis_temporarias += Tx
-                    token_atual.lexema = 'real'
+                    self.variaveis_temporarias += Tx + '\n'
+                    token_atual.lexema = "T" + str(self.contador_temporarias)
                 
                 
                 self.programa_objeto += f'T{self.contador_temporarias} = {opr1.lexema} {opa.lexema} {opr2.lexema};'
+                self.contador_temporarias += 1
                 
             else:
                 print('Erro: Operandos com tipos incompatíveis')
@@ -189,25 +198,38 @@ class Semantico:
             #Imprimir ( if (EXP_R.lexema) { ) no arquivo objeto.
             self.programa_objeto += f'\nif({self.pilha_semantica[-3].lexema})' + '\n{'
         elif regra == 27:
-            tipo1 = self.pilha_semantica[-1].tipo
-            tipo2 = self.pilha_semantica[-3].tipo
-           
-            #if tipo1 == tipo2 or (tipo1 == 'real' and tipo2 == 'int') or (tipo1 == 'int' and tipo2 == 'real'):
-                #self.variaveis_temporarias += tipo2 + " T" + str(self.contador_temporarias) + ";")
-                
-            #Se sim, então:
             
+            tipo1 = self.pilha_semantica[-3].tipo
+            tipo2 = self.pilha_semantica[-1].tipo
+            opr = self.pilha_semantica[-2]
+           
+            if (tipo1 == tipo2) or (tipo1 == 'real' and tipo2 == 'int') or (tipo1 == 'int' and tipo2 == 'real'):
+                self.variaveis_temporarias += 'int' + " T" + str(self.contador_temporarias) + "; \n"
+                
+                
+                token_atual.lexema = "T" + str(self.contador_temporarias)
+                token_atual.tipo = self.pilha_semantica[-1].tipo
+                
+                traduz_operador_para_c = opr.lexema
+                if traduz_operador_para_c == '=':
+                    traduz_operador_para_c = '=='
+                elif traduz_operador_para_c == '<>':
+                    traduz_operador_para_c = '!='
+                self.programa_objeto += f'T{self.contador_temporarias} = {self.pilha_semantica[-1].lexema} {traduz_operador_para_c} {self.pilha_semantica[-3].lexema}'
+            #Se sim, então:
+                self.contador_temporarias += 1
             #Gerar uma variável booleana temporária Tx, em que x é um número
             #gerado sequencialmente.
             #EXP_R.lexema <- Tx
             #Imprimir (Tx = OPRD.lexema opr.tipo OPRD.lexema) no arquivo objeto.
-            
+            else:
+                print('Erro: Operandos com tipos incompatíveis')
             #Caso contrário emitir “Erro: Operandos com tipos incompatíveis” ”, linha e coluna
             #onde ocorreu o erro no fonte.
-            pass
         elif regra == 31:
-            self.programa_objeto += '} \n'
+            #self.programa_objeto += '} \n'
+            pass
         elif regra == 32:
-            self.programa_objeto += '} \n'
+            self.programa_objeto += '\nreturn 0;\n}\n'
         
         return token_atual

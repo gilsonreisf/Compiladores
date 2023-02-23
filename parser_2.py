@@ -7,6 +7,8 @@ from scanner import Scanner
 from tabela_de_estados import TabelaDeEstados
 from tabela_de_simbolos import TabelaDeSimbolos
 from semantico import *
+from semantico import Semantico
+from funcoes_auxiliares_semantico import *
 
 
 class Parser2:
@@ -16,7 +18,9 @@ class Parser2:
     self.scanner = Scanner("codigo.txt")
     self.tabelaEstados = TabelaDeEstados()
     self.tabelaDeSimbolos = TabelaDeSimbolos()
-    self.programa_objeto = ''
+    self.Semantico = Semantico('', '', 0)
+    
+    
 
 
   def buscarProximoToken(self, listaDeTokens): 
@@ -42,57 +46,48 @@ class Parser2:
       s = self.pilha[-1]
       acao = action(s,a)
       t = acao[1:]
+      
       if('s' in acao):
         self.pilha.append(int(t))
+        
+        self.Semantico.pilha_semantica.append(token)
+        
         val = self.buscarProximoToken(listaDeTokens)
         index += 1
         token = listaDeTokens[index]
         a = token.classe.lower()
-        #tipo = token.tipo
-        #lexema = token.lexema
-        
-        #print(f' Classe: {a} \n Tipo: {tipo} \n Lexema {lexema}')
+
       elif('R' in acao):
 
         A, B, regra = self.regras.retornaElementos(t)
         
+        taux = t
+      
         for element in B:
             desempilhar(self.pilha)
-        #print("=_"*20)
-        #print(f"Redução: -----> {t}")
-        #print("=_"*20)
+            
+
+            
         t = self.pilha[-1]
-        print(self.pilha[-1])
+        
         self.pilha.append(int(goto(int(t),A)))
+      
+        #print('Produção: ', regra)
         
-        print('Produção: ', regra)
+        var_semantico = self.Semantico.ativa_semantico(taux, A, B, token, self.tabelaDeSimbolos)
         
-        self.programa_objeto += str(semantico(t, token, A, B, self.tabelaDeSimbolos))
-
+        for i in range(len(B)):
+            desempilhar(self.Semantico.pilha_semantica)
         
-
+        self.Semantico.pilha_semantica.append(var_semantico)
         
-
-        
-
-        
-        #self.programa_objeto += semantico(t, token, A, B)
-        
-        
-        
-        #print(self.tabelaDeSimbolos.imprimirTabela())
-        #print('=='*20)
-        #print(f'A: {A} \n B: {B} \n Regra: {regra}')
-        #print(f'Token: {token}')
-        #print(f't: {t}')
-        #print('=='*20)
+        #print(f' ============== {self.Semantico.pilha_semantica}')
         
       elif('a' in acao):
         print('ACCEPT')
-        print(self.programa_objeto)
-        #print(self.tabelaDeSimbolos.imprimirTabela())
-        #inicia_programa_objeto()
-        #escreve_string_no_objeto
+        print(self.tabelaDeSimbolos.imprimirTabela())
+        #print(self.Semantico.programa_objeto)
+        inicia_arquivo_objeto(self.Semantico.programa_objeto, self.Semantico.variaveis_temporarias)
         break
       
       else:

@@ -42,6 +42,12 @@ class TabelaDeSimbolos:
                 if(token_tabela_simbolos):
                     self.tabela.remove(token_tabela_simbolos)
                     self.tabela.append(token)  
+    
+    def atualizaTokenParaSemantico(self, token: Token):
+        for t in self.tabela:
+            if t.lexema == token.lexema:
+                t.tipo = token.tipo
+
 
     def imprimirTabela(self):
             print(' \n -------------------------- Tabela de Símbolos --------------------------')

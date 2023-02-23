@@ -1,5 +1,34 @@
 #include <stdio.h> 
- 
- B C  
- 
-D E
+typedef char literal[256]: 
+void main(void) 
+{
+/*----Variaveis temporarias----*/
+
+/*------------------------------*/ 
+literal A; 
+int B; 
+int D; 
+double C; 
+
+
+
+printf(""Digite B"") 
+printf(""Digite A:"") 
+
+if())
+{
+if())
+{printf(""B esta entre 2 e 4"") 
+} 
+} 
+} 
+} 
+B <- ; ;B <- ; ;B <- ; ;D <- B ;C <- 5.0 ;printf(""\nB=\n"") 
+printf("D") 
+printf(""\n"") 
+printf("C") 
+printf(""\n"") 
+printf("A") 
+} 
+
+}
